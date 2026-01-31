@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cg5w3yk2h7mdp"]
+
+[ext_resource type="Script" path="res://scripts/ghost_enemy.gd" id="1_m9k3h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7s2kq"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jh3ka"]
+size = Vector3(1, 1, 1)
+
+[node name="GhostEnemy" type="CharacterBody3D"]
+script = ExtResource("1_m9k3h")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_7s2kq")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_jh3ka")
