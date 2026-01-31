@@ -28,6 +28,10 @@ shape = SubResource("BoxShape3D_mp1")
 
 [node name="Players" type="Node3D" parent="."]
 
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Obstacles" type="Node3D" parent="."]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 0)
 shadow_enabled = true
@@ -35,6 +39,9 @@ shadow_enabled = true
 [node name="EnemySpawner" type="Node3D" parent="."]
 script = ExtResource("3_spawn")
 ghost_scene = ExtResource("2_gh0st")
+enemy_multiplier = 2
+auto_spawn = false
+spawn_container_path = NodePath("../Enemies")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("4_music")
@@ -45,3 +52,7 @@ max_distance = 50.0
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/multiplayer/player_3d_multiplayer.tscn")
 spawn_path = NodePath("../Players")
+
+[node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/ghost_enemy.tscn")
+spawn_path = NodePath("../Enemies")

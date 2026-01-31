@@ -50,13 +50,20 @@ func _on_return_to_menu():
 func _setup_game():
 	randomize_plane_size()
 	
-	# Only server spawns obstacles and handles initial spawn
+	# Spawn obstacles on all clients (deterministic with fixed seeds)
+	call_deferred("spawn_obstacles")
+	
+	# Only server spawns players and enemies
 	if multiplayer.is_server():
-		call_deferred("spawn_obstacles")
 		call_deferred("spawn_all_players")
+		# Spawn enemies after players with a small delay
+		call_deferred("_spawn_enemies_delayed")
 
 func randomize_plane_size():
-	var plane_size = randf_range(Globals.plane_min_size, Globals.plane_max_size)
+	# Use a fixed seed for deterministic plane size across all clients
+	var rng = RandomNumberGenerator.new()
+	rng.seed = 54321  # Fixed seed for consistent plane size
+	var plane_size = rng.randf_range(Globals.plane_min_size, Globals.plane_max_size)
 	
 	var floor_mesh = $Floor/MeshInstance3D
 	if floor_mesh and floor_mesh.mesh:
@@ -75,6 +82,10 @@ func spawn_obstacles():
 		push_error("Wall scene not assigned!")
 		return
 	
+	# Use a fixed seed for deterministic obstacle placement across all clients
+	var rng = RandomNumberGenerator.new()
+	rng.seed = 12345  # Fixed seed for consistent obstacle placement
+	
 	var plane_size = $Floor/MeshInstance3D.mesh.size.x
 	var half_size = plane_size * 0.5
 	
@@ -85,8 +96,8 @@ func spawn_obstacles():
 		var attempts = 0
 		
 		while attempts < 50:
-			spawn_pos.x = randf_range(-half_size + 1, half_size - 1)
-			spawn_pos.z = randf_range(-half_size + 1, half_size - 1)
+			spawn_pos.x = rng.randf_range(-half_size + 1, half_size - 1)
+			spawn_pos.z = rng.randf_range(-half_size + 1, half_size - 1)
 			spawn_pos.y = 0
 			
 			# Just ensure it's not in the center spawn area
@@ -96,10 +107,10 @@ func spawn_obstacles():
 			attempts += 1
 		
 		wall.position = spawn_pos
-		wall.rotation.y = randf_range(0, 2 * PI)
+		wall.rotation.y = rng.randf_range(0, 2 * PI)
 		wall.name = "Wall_" + str(i)
 		
-		add_child(wall)
+		$Obstacles.add_child(wall, true)
 
 func spawn_all_players():
 	# Spawn player for host
@@ -153,3 +164,11 @@ func _on_player_disconnected(peer_id: int):
 		player_node.queue_free()
 		spawned_player_ids.erase(peer_id)
 		print("Removed player for peer: ", peer_id)
+
+func _spawn_enemies_delayed():
+	# Wait for players to be spawned
+	await get_tree().create_timer(0.5).timeout
+	
+	var enemy_spawner = $EnemySpawner
+	if enemy_spawner:
+		enemy_spawner.spawn_enemies()

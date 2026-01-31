@@ -6,6 +6,14 @@ size = Vector3(2, 3, 2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
 size = Vector3(2, 3, 2)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_wall"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 0
+
 [node name="WallObstacle" type="StaticBody3D" groups=["obstacle"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -15,3 +23,7 @@ mesh = SubResource("BoxMesh_wall")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 shape = SubResource("BoxShape3D_wall")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("..")
+replication_config = SubResource("SceneReplicationConfig_wall")

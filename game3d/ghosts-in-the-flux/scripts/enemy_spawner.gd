@@ -3,21 +3,42 @@ extends Node3D
 @export var ghost_scene: PackedScene
 @export var spawn_radius: float = 8.0
 @export var min_distance_from_player: float = 3.0
+@export var enemy_multiplier: int = 1
+@export var auto_spawn: bool = true
+@export var spawn_container_path: NodePath = ""  # Path to container node for multiplayer
 
 func _ready():
 	# Defer spawning to ensure all nodes are properly initialized
-	call_deferred("spawn_enemies")
+	if auto_spawn:
+		call_deferred("spawn_enemies")
+
+func _get_spawn_container() -> Node:
+	if not spawn_container_path.is_empty():
+		var container = get_node_or_null(spawn_container_path)
+		if container:
+			return container
+	return self
 
 func spawn_enemies():
-	var player = get_tree().get_first_node_in_group("player")
-	if player == null or not player.is_inside_tree():
-		push_error("Player not found or not in tree!")
+	# Get all players in multiplayer or single player
+	var players = get_tree().get_nodes_in_group("player")
+	if players.is_empty():
+		push_warning("No players found, spawning enemies at random positions")
+		_spawn_enemies_no_player_check()
 		return
 	
-	var num_enemies = Globals.num_enemies
+	var player = players[0]  # Use first player for distance check
+	var container = _get_spawn_container()
+	
+	# Use a fixed seed for deterministic enemy placement across all clients
+	var rng = RandomNumberGenerator.new()
+	rng.seed = 67890  # Fixed seed for consistent enemy placement
+	
+	var num_enemies = Globals.num_enemies * enemy_multiplier
 	
 	for i in range(num_enemies):
 		var ghost = ghost_scene.instantiate()
+		ghost.name = "Ghost_" + str(i)
 		
 		# Generate random position around the map
 		var spawn_pos = Vector3.ZERO
@@ -25,8 +46,8 @@ func spawn_enemies():
 		var attempts = 0
 		
 		while not valid_position and attempts < 20:
-			spawn_pos.x = randf_range(-spawn_radius, spawn_radius)
-			spawn_pos.z = randf_range(-spawn_radius, spawn_radius)
+			spawn_pos.x = rng.randf_range(-spawn_radius, spawn_radius)
+			spawn_pos.z = rng.randf_range(-spawn_radius, spawn_radius)
 			spawn_pos.y = 0
 			
 			# Check distance from player
@@ -48,4 +69,34 @@ func spawn_enemies():
 			attempts += 1
 		
 		ghost.position = spawn_pos
-		add_child(ghost)
+		container.add_child(ghost, true)
+
+func _spawn_enemies_no_player_check():
+	var num_enemies = Globals.num_enemies * enemy_multiplier
+	var container = _get_spawn_container()
+	
+	# Use a fixed seed for deterministic enemy placement across all clients
+	var rng = RandomNumberGenerator.new()
+	rng.seed = 67890  # Fixed seed for consistent enemy placement
+	
+	for i in range(num_enemies):
+		var ghost = ghost_scene.instantiate()
+		ghost.name = "Ghost_" + str(i)
+		
+		var spawn_pos = Vector3.ZERO
+		var valid_position = false
+		var attempts = 0
+		
+		while not valid_position and attempts < 20:
+			spawn_pos.x = rng.randf_range(-spawn_radius, spawn_radius)
+			spawn_pos.z = rng.randf_range(-spawn_radius, spawn_radius)
+			spawn_pos.y = 0
+			
+			# Just check distance from center (spawn area)
+			if spawn_pos.length() >= min_distance_from_player:
+				valid_position = true
+			
+			attempts += 1
+		
+		ghost.position = spawn_pos
+		container.add_child(ghost, true)
