@@ -36,7 +36,7 @@ https://globalgamejam.org/
 - [ ] HTML (Web)
 - [ ] Linux
 - [ ] macOS
-- [ ] Windows
+- [ ] Windows ?
 
 ### 🚀 Deployment
 - [ ] Publish on VPS
