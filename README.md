@@ -27,10 +27,10 @@ https://globalgamejam.org/
 - [ ] Allow to kill enemies -> buller or contact
 - [ ] Enemy AI prototype
 
-### 🎮 Animations
+### 🎬 Animations
 - [ ] Player
 - [ ] Enemy
-- [ ] Particules
+- [ ] Particules ✨
 
 ### 🖥️ UI / UX
 - [ ] 2D scenes for:
