@@ -2,10 +2,44 @@ extends Node3D
 
 @export var wall_scene: PackedScene
 
+var pause_menu: Control
+var is_paused: bool = false
+
 func _ready():
 	randomize_plane_size()
 	# Defer obstacle spawning to ensure all nodes are properly initialized
 	call_deferred("spawn_obstacles")
+	# Setup pause menu
+	call_deferred("_setup_pause_menu")
+
+func _setup_pause_menu():
+	var pause_scene = preload("res://scenes/pause_menu.tscn")
+	pause_menu = pause_scene.instantiate()
+	add_child(pause_menu)
+	pause_menu.resume_game.connect(_on_resume_game)
+	pause_menu.return_to_menu.connect(_on_return_to_menu)
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+
+func toggle_pause():
+	is_paused = !is_paused
+	get_tree().paused = is_paused
+	if is_paused:
+		pause_menu.show_pause()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		pause_menu.hide_pause()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_resume_game():
+	toggle_pause()
+
+func _on_return_to_menu():
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func randomize_plane_size():
 	var plane_size = randf_range(Globals.plane_min_size, Globals.plane_max_size)

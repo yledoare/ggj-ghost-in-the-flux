@@ -1,0 +1,155 @@
+extends Node3D
+
+@export var wall_scene: PackedScene
+@export var player_scene: PackedScene
+
+var spawned_player_ids: Array = []
+var pause_menu: Control
+var is_paused: bool = false
+
+func _ready():
+	# Connect to player connection/disconnection signals
+	multiplayer.peer_connected.connect(_on_player_connected)
+	multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	
+	# Defer setup to ensure all nodes are properly initialized
+	call_deferred("_setup_game")
+	# Setup pause menu
+	call_deferred("_setup_pause_menu")
+
+func _setup_pause_menu():
+	var pause_scene = preload("res://scenes/pause_menu.tscn")
+	pause_menu = pause_scene.instantiate()
+	add_child(pause_menu)
+	pause_menu.resume_game.connect(_on_resume_game)
+	pause_menu.return_to_menu.connect(_on_return_to_menu)
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+
+func toggle_pause():
+	is_paused = !is_paused
+	if is_paused:
+		pause_menu.show_pause()
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		pause_menu.hide_pause()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func _on_resume_game():
+	toggle_pause()
+
+func _on_return_to_menu():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# Disconnect from multiplayer
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _setup_game():
+	randomize_plane_size()
+	
+	# Only server spawns obstacles and handles initial spawn
+	if multiplayer.is_server():
+		call_deferred("spawn_obstacles")
+		call_deferred("spawn_all_players")
+
+func randomize_plane_size():
+	var plane_size = randf_range(Globals.plane_min_size, Globals.plane_max_size)
+	
+	var floor_mesh = $Floor/MeshInstance3D
+	if floor_mesh and floor_mesh.mesh:
+		floor_mesh.mesh.size = Vector2(plane_size, plane_size)
+	
+	var floor_collision = $Floor/CollisionShape3D
+	if floor_collision and floor_collision.shape:
+		floor_collision.shape.size = Vector3(plane_size, 0.2, plane_size)
+	
+	var enemy_spawner = $EnemySpawner
+	if enemy_spawner:
+		enemy_spawner.spawn_radius = plane_size * 0.4
+
+func spawn_obstacles():
+	if not wall_scene:
+		push_error("Wall scene not assigned!")
+		return
+	
+	var plane_size = $Floor/MeshInstance3D.mesh.size.x
+	var half_size = plane_size * 0.5
+	
+	for i in range(Globals.nb_obstacles):
+		var wall = wall_scene.instantiate()
+		
+		var spawn_pos = Vector3.ZERO
+		var attempts = 0
+		
+		while attempts < 50:
+			spawn_pos.x = randf_range(-half_size + 1, half_size - 1)
+			spawn_pos.z = randf_range(-half_size + 1, half_size - 1)
+			spawn_pos.y = 0
+			
+			# Just ensure it's not in the center spawn area
+			if spawn_pos.length() >= 4.0:
+				break
+			
+			attempts += 1
+		
+		wall.position = spawn_pos
+		wall.rotation.y = randf_range(0, 2 * PI)
+		wall.name = "Wall_" + str(i)
+		
+		add_child(wall)
+
+func spawn_all_players():
+	# Spawn player for host
+	spawn_player(1)
+	
+	# Spawn players for all connected peers
+	var network_manager = get_node_or_null("/root/NetworkManager")
+	if network_manager:
+		for player_id in network_manager.players:
+			if player_id != 1 and player_id not in spawned_player_ids:
+				spawn_player(player_id)
+
+func spawn_player(peer_id: int):
+	if peer_id in spawned_player_ids:
+		return
+	
+	if not player_scene:
+		push_error("Player scene not assigned!")
+		return
+	
+	var player = player_scene.instantiate()
+	player.name = "Player_" + str(peer_id)
+	player.player_id = peer_id
+	
+	# Calculate spawn position (spread players around center)
+	var spawn_index = spawned_player_ids.size()
+	var angle = spawn_index * (2.0 * PI / 8.0)  # Spread up to 8 players in circle
+	var spawn_radius = 3.0
+	
+	player.position = Vector3(
+		cos(angle) * spawn_radius,
+		2.0,
+		sin(angle) * spawn_radius
+	)
+	
+	$Players.add_child(player, true)
+	spawned_player_ids.append(peer_id)
+	
+	print("Spawned player for peer: ", peer_id)
+
+func _on_player_connected(peer_id: int):
+	if multiplayer.is_server():
+		# Small delay to ensure player is fully registered
+		await get_tree().create_timer(0.1).timeout
+		spawn_player(peer_id)
+
+func _on_player_disconnected(peer_id: int):
+	# Remove the disconnected player's node
+	var player_node = $Players.get_node_or_null("Player_" + str(peer_id))
+	if player_node:
+		player_node.queue_free()
+		spawned_player_ids.erase(peer_id)
+		print("Removed player for peer: ", peer_id)

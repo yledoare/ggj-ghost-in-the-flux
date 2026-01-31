@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="GhostsInTheFlux"
-run/main_scene="uid://05xr7wisnqe3"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Globals="*res://scripts/commons/Globals.gd"
+NetworkManager="*res://scripts/multiplayer/network_manager.gd"
 
 [display]
 

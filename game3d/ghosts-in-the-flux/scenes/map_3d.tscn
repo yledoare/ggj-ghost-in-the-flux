@@ -39,4 +39,5 @@ ghost_scene = ExtResource("2_gh0st")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1774185478]
 stream = ExtResource("4_music")
 autoplay = true
+bus = &"Music"
 max_distance = 50.0
