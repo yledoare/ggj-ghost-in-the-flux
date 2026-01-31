@@ -14,7 +14,7 @@
 ## 🚧 TODO
 
 ### 🗂️ Architecture
-- [ ] Find a good game directory structure
+- [ ] Find a good game directory structure / Godot Templates
 
 ### 🎮 Gameplay
 - [ ] 3D scene with player and many enemies
