@@ -1,0 +1,31 @@
+[music path="res://assets/ambiance.ogg" fade="0.0" volume="0.0"]
+join narrateur 0
+narrateur: Où-où suis-je ?
+leave narrateur
+join fant 0
+fant: ...
+leave fant
+join narrateur 0
+narrateur: Que me voulez-vous ??
+leave narrateur
+join fant 0
+fant: la pandémie te rongera...
+leave fant
+- lancer le masque sur le virus
+	[background arg="res://assets/black.png" fade="0.0"]
+	le masque sur le virus a été lancé.
+	Il s'averraît que le masque était imprègné d'un vaccin
+	Le virus, gémissant pendant ce qu'il semble durer des heures,finit par disparaitre.
+	Cet enfer est fini. Tu es libre.
+	(Attention, tout va recommencer, le jeu est fini...)
+	[signal arg="enfin"]
+- Continuer le dialogue pour en savoir plus
+	[background arg="res://assets/black.png" fade="0.0"]
+	[music fade="0.0" volume="0.0"]
+	[signal arg="feuilles"]
+	vous sentez votre chaire se rammolire, vous poumons se compresser, et votre tête gonfler
+	Je crois que tu es mort...
+	- Recommencer
+		[signal arg="labyrinthe"]
+	[music fade="0.0" volume="0.0"]
+	[end_timeline]
