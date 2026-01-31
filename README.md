@@ -29,11 +29,14 @@ https://globalgamejam.org/
 ### 🖥️ UI / UX
 - [ ] 2D scenes for:
   - [ ] Menu
+  - [ ] Single player
+  - [ ] Multiplayers
   - [ ] Credits
   - [ ] Options
     - [ ] Keyboard settings
     - [ ] Gamepad settings
     - [ ] Audio settings
+    - [ ] Video settings
 
 ### 📦 Export
 - [x] HTML (Web)
