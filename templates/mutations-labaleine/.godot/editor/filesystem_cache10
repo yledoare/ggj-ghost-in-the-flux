@@ -1,0 +1,43 @@
+63f7b34db8d8cdea90c76aacccf841ec
+::res://::1769846096
+default_env.tres::Environment::-1::1769846076::0::1::::<><><>0<>0<><>::
+export_presets.cfg::TextFile::-1::1668666046::0::1::::<><><>0<>0<><>::
+::res://Ressources/::1668666046
+background.png::CompressedTexture2D::2579023832990585055::1668666046::1769846098::1::::<><><>0<>0<>443226ba0161abe26274a1e4378b2efe<>res://.godot/imported/background.png-31c696ed5d4d6256e8e7080abddc755f.ctex::
+baleine-2.png::CompressedTexture2D::4671105658085889075::1668666046::1769846098::1::::<><><>0<>0<>f7a21dc70a0a6419a74353c57e89cd43<>res://.godot/imported/baleine-2.png-a40a5d6b916854713376fd6699103ed4.ctex::
+explosion.png::CompressedTexture2D::3615772720247281661::1668666046::1769846098::1::::<><><>0<>0<>cb6287ce62bde1912e0b059f5bce4871<>res://.godot/imported/explosion.png-ccad84a412ba8bea6a1178e2a42c4172.ctex::
+gamejam1.ogg::AudioStreamOggVorbis::5230965640446267049::1668666046::1769846098::1::::<><><>0<>0<>3b9338bdf26939bb98b64ddbec57273a<>res://.godot/imported/gamejam1.ogg-e3d69809ec5fd76ae2f0a43458fbcd1b.oggvorbisstr::
+gamejam2.ogg::AudioStreamOggVorbis::2892961211563732729::1668666046::1769846098::1::::<><><>0<>0<>8ed0e51eefa5dcf3791ff57e7f7db9c2<>res://.godot/imported/gamejam2.ogg-3a174efab9b919a2a223ced57a135df8.oggvorbisstr::
+intro.ogg::AudioStreamOggVorbis::722831762939554737::1668666046::1769846098::1::::<><><>0<>0<>da207220f58993c8a83910d89d5790ce<>res://.godot/imported/intro.ogg-abc078d34682d2d003d672ce7c3285b9.oggvorbisstr::
+Name Smile.otf::FontFile::7246450370694456968::1668666046::1769846098::1::::<><><>0<>0<>77df33e254a1ec77cf5c3cfd915f3f5e<>res://.godot/imported/Name Smile.otf-2c864cfd51e51c6e9a028ab321b10b47.fontdata::
+theme.wav::AudioStreamWAV::6589471930675133640::1668666046::1769846099::1::::<><><>0<>0<>c1f5deaf6d8db057dcf364a09f911e16<>res://.godot/imported/theme.wav-8c997f69c6520ee82881ba8fe0933dee.sample::
+Tileset.tres::TileSet::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png
+zap01.ogg::AudioStreamOggVorbis::1787268810862879850::1668666046::1769846098::1::::<><><>0<>0<>ac34595672771864b56b03b087e8563b<>res://.godot/imported/zap01.ogg-fce0fad8714db3474ac38ea5f91b3f88.oggvorbisstr::
+::res://Scenes/::1668666046
+bidon.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png<>res://Scripts/bidon.gd
+generateur.gd::GDScript::6952820852517688730::1769846076::0::1::::<>TileMap<><>0<>0<><>::
+generateur.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png<>res://Scenes/generateur.gd
+Joueur.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_entite.png<>res://Scripts/Joueur.gd<>res://Ressources/zap01.ogg
+Menu.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Ressources/Name Smile.otf<>res://Sprites/baleine.jpg<>res://Scripts/Menu.gd<>res://Ressources/gamejam2.ogg
+MondeDeTest.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png<>res://Scenes/Joueur.tscn<>res://Scripts/MondeDeTest.gd<>res://Ressources/theme.wav<>res://Ressources/background.png
+méchant2.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_entite.png<>res://Scripts/méchant2.gd
+méchant.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png<>res://Scripts/méchant.gd
+over.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Scripts/GameOver.gd<>res://Ressources/Name Smile.otf
+Pic.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/tileset_bloc.png<>res://Scripts/Pic.gd
+Tileset.tscn::PackedScene::-1::1769846076::0::1::::<><><>0<>0<><>::res://Sprites/bloc_niveau1.png
+::res://Scripts/::1668666046
+bidon.gd::GDScript::6631583937110686867::1769846076::0::1::::<>RigidBody2D<><>0<>0<><>::
+GameOver.gd::GDScript::1934904630913437495::1769846076::0::1::::<>Control<><>0<>0<><>::
+Joueur.gd::GDScript::4461956322932405841::1769846076::0::1::::<>CharacterBody2D<><>0<>0<><>::
+Menu.gd::GDScript::2824482457040189234::1769846076::0::1::::<>Control<><>0<>0<><>::
+MondeDeTest.gd::GDScript::3440575753224007707::1769846076::0::1::::<>Node2D<><>0<>0<><>::
+méchant2.gd::GDScript::216433382314229697::1769846076::0::1::::<>CharacterBody2D<><>0<>0<><>::
+méchant.gd::GDScript::8187044778005019895::1769846076::0::1::::<>CharacterBody2D<><>0<>0<><>::
+Pic.gd::GDScript::6909480540479000328::1769846076::0::1::::<>StaticBody2D<><>0<>0<><>::
+::res://Sprites/::1668666046
+baleine.jpg::CompressedTexture2D::9132045747387484268::1668666046::1769846099::1::::<><><>0<>0<>8f859c92965b2b498e7b34754a393c25<>res://.godot/imported/baleine.jpg-2d1eccc76a6247072e4417b9ed0255bb.ctex::
+explosion.png::CompressedTexture2D::6081935908856470080::1668666046::1769846098::1::::<><><>0<>0<>46f10800b6f92c92e591526f49fce38b<>res://.godot/imported/explosion.png-03dbcc1860a0b88a11042db44c8cc013.ctex::
+icon.png::CompressedTexture2D::8914170952673273084::1668666046::1769846098::1::::<><><>0<>0<>2f8ae86b7955982bd1e45e1fbc50f56a<>res://.godot/imported/icon.png-f9ba9008f31679cd240e2c5f33a9a4fb.ctex::
+tileset_bloc.png::CompressedTexture2D::7356968862169013383::1668666046::1769846098::1::::<><><>0<>0<>eaafbdd1ca5ca47c24106543b45b1020<>res://.godot/imported/tileset_bloc.png-231721fc639722b967b22c7e37981a09.ctex::
+tileset_entite.png::CompressedTexture2D::3321696672520635079::1668666046::1769846098::1::::<><><>0<>0<>1c3fe93fb1f191c0feb8da765ea74dba<>res://.godot/imported/tileset_entite.png-b148bdb7a638c7836769d53c4be0b626.ctex::
+tileset_joueur.png::CompressedTexture2D::3442143476943086670::1668666046::1769846098::1::::<><><>0<>0<>6f5b021eb030d593572fb9c7c4aabc33<>res://.godot/imported/tileset_joueur.png-c7c3c7badc711593446496e5d5b4caa5.ctex::

@@ -1,0 +1,135 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Sprites/tileset_bloc.png" type="Texture2D" id=1]
+[ext_resource path="res://Scenes/Joueur.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/MondeDeTest.gd" type="Script" id=5]
+[ext_resource path="res://Ressources/theme.wav" type="AudioStream" id=6]
+[ext_resource path="res://Ressources/background.png" type="Texture2D" id=7]
+
+[sub_resource type="ConvexPolygonShape2D" id=5]
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=6]
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=7]
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=8]
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="ConvexPolygonShape2D" id=9]
+points = PackedVector2Array( 16, 0, 0, 0, 0, 16, 16, 16 )
+
+[sub_resource type="ConvexPolygonShape2D" id=10]
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=4]
+0/name = "tileset_bloc.png 0"
+0/texture = ExtResource( 1 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 96, 48 )
+0/tile_mode = 2
+0/autotile/icon_coordinate = Vector2( 0, 0 )
+0/autotile/tile_size = Vector2( 16, 16 )
+0/autotile/spacing = 0
+0/autotile/occluder_map = [  ]
+0/autotile/navpoly_map = [  ]
+0/autotile/priority_map = [  ]
+0/autotile/z_index_map = [  ]
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape = SubResource( 5 )
+0/shape_one_way = false
+0/shape_one_way_margin = 1.0
+0/shapes = [ {
+"autotile_coord": Vector2( 1, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 5 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 1, 1 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 6 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 1, 2 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 7 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 4, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 8 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 5, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 9 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+}, {
+"autotile_coord": Vector2( 3, 1 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 10 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+0/z_index = 0
+
+[node name="MondeDeTest" type="Node2D"]
+position = Vector2( 280, 343 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_horizontal_guides_": [ 300.0 ]
+}
+
+[node name="ennemis" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+follow_viewport_enabled = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.025, 0 )
+
+[node name="Icon" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2( 0, -43 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 3198.6, 274 )
+
+[node name="Joueur" parent="." instance=ExtResource( 2 )]
+position = Vector2( 0, -7 )
+
+[node name="spawnpos" type="Marker2D" parent="Joueur"]
+position = Vector2( 0, -24 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource( 4 )
+cell_size = Vector2( 16, 16 )
+compatibility_mode = true
+format = 1
+tile_data = PackedInt32Array( -65542, 0, 0, -65541, 0, 1, -65540, 0, 2, -5, 0, 4, 65531, 0, 4, 65532, 0, 1, 65533, 0, 1, 65534, 0, 1, 65535, 0, 1, 0, 0, 2, 2556031, 0, 65537, 2556032, 0, 65537, 2556033, 0, 65537 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+physics_interpolation_mode = 2
+process_priority = 117
+stream = ExtResource( 6 )
+volume_db = -0.5
+
+[node name="Label" type="Label" parent="."]
+offset_left = -104.0
+offset_top = -79.0
+offset_right = 109.0
+offset_bottom = -48.0
+text = "se déplacer: flèche droite/gauche
+sauter: flèche haut"
