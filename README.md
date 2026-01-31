@@ -38,7 +38,7 @@ https://globalgamejam.org/
     - [ ] Audio settings
     - [ ] Video settings
 
-### 🎮 Sound
+### 🔊 Sound
 - [ ] Music Menu
 - [ ] Music Jeu
 - [ ] Bruitages player
