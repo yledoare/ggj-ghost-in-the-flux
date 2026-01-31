@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Globals="*res://scripts/commons/Globals.gd"
 
+[display]
+
+window/size/viewport_width=1900
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

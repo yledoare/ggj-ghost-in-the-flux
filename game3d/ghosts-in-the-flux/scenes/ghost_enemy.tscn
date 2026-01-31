@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cg5w3yk2h7mdp"]
 
 [ext_resource type="Script" path="res://scripts/ghost_enemy.gd" id="1_m9k3h"]
-[ext_resource type="PackedScene" uid="uid://b8b8b8b8b8b8" path="res://assets/models/ghost.glb" id="2_ghost"]
+[ext_resource type="PackedScene" path="res://assets/models/ghost.glb" id="2_ghost"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ghost"]
 radius = 0.8
