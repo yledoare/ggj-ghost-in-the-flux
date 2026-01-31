@@ -19,10 +19,10 @@ https://globalgamejam.org/
 - [ ] Find a good game directory structure / Godot Templates
 
 ### 🎮 Gameplay
-- [ ] 3D scene with player
+- [x] 3D scene with player
 - [ ] Add many 3D enemies
-- [ ] Basic player controller (movement, camera, attack)
-- [ ] Gamepad controller
+- [x] Basic player controller (movement, camera, attack)
+- [x] Gamepad controller
 - [ ] Mobile controller
 - [ ] Enemy AI prototype
 
