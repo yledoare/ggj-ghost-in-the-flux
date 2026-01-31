@@ -26,6 +26,7 @@ https://globalgamejam.org/
 - [ ] Mobile controller
 - [ ] Allow to kill enemies -> buller or contact
 - [ ] Enemy AI prototype
+- [ ] Add obstacles and pathfinding for Enemies
 
 ### 🎬 Animations
 - [ ] Player
