@@ -20,10 +20,11 @@ https://globalgamejam.org/
 
 ### 🎮 Gameplay
 - [x] 3D scene with player
-- [ ] Add many 3D enemies
+- [x] Add many 3D enemies
 - [x] Basic player controller (movement, camera, attack)
 - [x] Gamepad controller
 - [ ] Mobile controller
+- [ ] Allow to kill enemies
 - [ ] Enemy AI prototype
 
 ### 🖥️ UI / UX
@@ -37,12 +38,13 @@ https://globalgamejam.org/
     - [ ] Gamepad settings
     - [ ] Audio settings
     - [ ] Video settings
+- [ ] HUD : Display energy, kills...
 
 ### 🔊 Sound
 - [ ] Music Menu
 - [ ] Music Jeu
 - [ ] Bruitages player
-- [ ] Bruitage ennemies
+- [ ] Bruitage enemies
 
 ### 📦 Export
 - [x] HTML (Web)
