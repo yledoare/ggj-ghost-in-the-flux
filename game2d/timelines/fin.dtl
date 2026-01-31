@@ -2,15 +2,15 @@
 join narrateur 0
 narrateur: Où-où suis-je ?
 leave narrateur
-join fant 0
-fant: ...
-leave fant
+join virus left
+virus: ...
+leave virus
 join narrateur 0
 narrateur: Que me voulez-vous ??
 leave narrateur
-join fant 0
-fant: la pandémie te rongera...
-leave fant
+join virus left
+virus: la pandémie te rongera...
+leave virus
 - lancer le masque sur le virus
 	[background arg="res://assets/black.png" fade="0.0"]
 	le masque sur le virus a été lancé.

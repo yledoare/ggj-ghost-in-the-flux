@@ -32,7 +32,8 @@ directories/dch_directory={
 "fant": "res://assets/fant.dch",
 "inconnu": "res://assets/inconnu.dch",
 "narrateur": "res://assets/narrateur.dch",
-"schizo": "res://timelines/schizo.dch"
+"schizo": "res://timelines/schizo.dch",
+"virus": "res://assets/virus.dch"
 }
 directories/dtl_directory={
 "151": "res://timelines/151.dtl",
@@ -71,6 +72,9 @@ layout/style_list=[]
 layout/default_style="Default"
 text/autoadvance_enabled=false
 text/autoadvance_fixed_delay=0.1
+extensions_folder="res://addons/dialogic_additions"
+audio/max_channels=4.0
+animations/cross_fade_default_length=0.5
 
 [editor_plugins]
 
