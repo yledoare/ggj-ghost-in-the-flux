@@ -1,5 +1,7 @@
 # Global Game Jam 2026 - Ghost in the Flux Team
 
+https://globalgamejam.org/
+
 > Running ?
 
 * 2D ?
@@ -38,7 +40,7 @@
 
 ### 🚀 Deployment
 - [ ] Publish on VPS
-- [ ] Publish on itch.io
+- [ ] Publish on itch.io https://itch.io/
 
 ### 🌐 Multiplayer
 - [ ] Test multiplayer prototype
