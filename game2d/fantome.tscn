@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dfghkxfdyxtv8"]
+
+[ext_resource type="Texture2D" uid="uid://dkw2rmriimv0r" path="res://assets/virus.png" id="1_kuaa7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fc3ig"]
+size = Vector2(128, 128)
+
+[node name="fantome" type="CharacterBody2D" unique_id=1293906928]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1200978658]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_fc3ig")
+disabled = true
+metadata/_edit_group_ = true
+
+[node name="Virus" type="Sprite2D" parent="." unique_id=1362455791]
+position = Vector2(0, -0.5)
+texture = ExtResource("1_kuaa7")
+metadata/_edit_group_ = true

@@ -1,0 +1,8 @@
+join narrateur 0
+narrateur: (Content d'etre arrivé !)
+narrateur: (Je me demande ce qui se passe...)
+narrateur: (Et ce vieillard en plus...)
+narrateur: (J'aurais peut-etre du appeler une ambulance...)
+narrateur: (Enfin, il est temps de dormir maintenant, c'était qu'un vieux)
+[signal arg="stopdial"]
+[end_timeline]

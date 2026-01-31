@@ -1,0 +1,17 @@
+join narrateur 0
+narrateur: Qui... qui etes-vous ?
+leave narrateur
+join cowboy 0
+cowboy: Aucune importance. Prenez ça.
+leave cowboy
+(Il me donne un masque avec "vaccin" inscrit dessus)
+join narrateur 0
+narrateur: ?
+[wait time="2.0"]
+[signal arg="cowboydis"]
+narrateur: Je ferais mieux de quitter cet endroit...
+leave narrateur
+[background arg="res://assets/black.png" fade="0.0"]
+...
+[signal arg="fin"]
+[end_timeline]

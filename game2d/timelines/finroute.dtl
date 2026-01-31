@@ -1,0 +1,9 @@
+narrateur: (Qu'est-ce qui c'est passé ?)
+narrateur: (Est-ce que c'était réel au moins ?)
+narrateur: (Je préfererai ne pas y penser.)
+narrateur: (La nuit porte conseil après tout.)
+narrateur: (Je suis bientot arrivé chez moi de toute façon...)
+[background arg="res://assets/black.png" fade="0.0"]
+Quelques instants plus tard...
+[signal arg="passechambre"]
+[end_timeline]

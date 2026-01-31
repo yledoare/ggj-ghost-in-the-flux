@@ -1,0 +1,27 @@
+join schizo 0
+schizo: [...] la maladie arrive
+schizo: Le monde va s'écrouler face à la pandémie qui nous menace!   
+schizo: Mais il reste un espoir, un salut! Ce masque te protègera jeune homme, prend le! il est déjà trop tard pour moi...
+- L'interrompre
+	leave schizo
+	join narrateur 0
+	narrateur: t'es ridicule veillard!
+	leave narrateur
+	join schizo 0
+- prendre le masque
+
+schizo: excellent mon garcon.
+schizo: ...
+schizo: ...
+schizo: *tousse*
+leave schizo
+join narrateur 0
+narrateur: Vous allez bien?
+leave narrateur
+join schizo 0
+schizo: Vas t-en garçon, Avant que ce ne soit ton tour!
+schizo: *se met à cracher du sang*
+[signal arg="stopdial"]
+[signal arg="suiteschizo"]
+
+[end_timeline]

@@ -1,0 +1,4 @@
+join narrateur 0
+narrateur: (qu'est ce qu'il lui arrive?!)
+[signal arg="stopdial"]
+[end_timeline]
