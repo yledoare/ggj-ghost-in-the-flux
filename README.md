@@ -24,8 +24,13 @@ https://globalgamejam.org/
 - [x] Basic player controller (movement, camera, attack)
 - [x] Gamepad controller
 - [ ] Mobile controller
-- [ ] Allow to kill enemies
+- [ ] Allow to kill enemies -> buller or contact
 - [ ] Enemy AI prototype
+
+### 🎮 Animations
+- [ ] Player
+- [ ] Enemy
+- [ ] Particules
 
 ### 🖥️ UI / UX
 - [ ] 2D scenes for:
