@@ -65,6 +65,7 @@ https://globalgamejam.org/
 - [ ] Test multiplayer prototype
 - [ ] Sync player movement
 - [ ] Basic lobby system
+- [ ] LeaderBoard
 
 ### 🧪 Debug & Tools
 - [ ] Test debug addons
