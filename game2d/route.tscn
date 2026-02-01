@@ -334,7 +334,7 @@ offset_top = 66.0
 offset_right = 1127.0
 offset_bottom = 205.0
 theme = SubResource("Theme_8kwui")
-text = "Recommencer"
+text = "Respawn"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="respawn"]
 layout_mode = 0
@@ -342,7 +342,7 @@ offset_left = -99.0
 offset_top = 291.0
 offset_right = 581.0
 offset_bottom = 720.0
-text = "Le virus m'a eu !"
+text = "Il faut esquiver les voitures..."
 
 [connection signal="body_entered" from="TileMap/Area2D" to="TileMap/Area2D" method="_on_body_entered"]
 [connection signal="pressed" from="respawn" to="player" method="_on_respawn_pressed"]

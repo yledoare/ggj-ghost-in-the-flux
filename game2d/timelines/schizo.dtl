@@ -1,6 +1,6 @@
 join schizo 0
 schizo: [...] la maladie arrive
-schizo: Le monde va s'écrouler face à la pandémie qui nous menace!
+schizo: Le monde va s'écrouler face à la pandémie qui nous menace!   
 schizo: Mais il reste un espoir, un salut! Ce masque te protègera jeune homme, prend le! il est déjà trop tard pour moi...
 - L'interrompre
 	leave schizo
@@ -8,9 +8,9 @@ schizo: Mais il reste un espoir, un salut! Ce masque te protègera jeune homme, 
 	narrateur: t'es ridicule veillard!
 	leave narrateur
 	join schizo 0
-	pauvre fou!
 - prendre le masque
-	schizo: excellent choix mon garçon
+
+schizo: excellent mon garcon.
 schizo: ...
 schizo: ...
 schizo: *tousse*
