@@ -12,6 +12,11 @@ func _ready():
 	options_button.pressed.connect(_on_options_pressed)
 	credits_button.pressed.connect(_on_credits_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
+	
+	# Disable multiplayer button for web exports (HTML5 doesn't support proper multiplayer)
+	if OS.has_feature("web"):
+		multiplayer_button.disabled = true
+		multiplayer_button.modulate = Color(0.5, 0.5, 0.5, 1.0)  # Gray out the button
 
 func _on_single_player_pressed():
 	get_tree().change_scene_to_file("res://scenes/map_3d.tscn")

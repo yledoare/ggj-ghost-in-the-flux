@@ -138,8 +138,8 @@ func _update_lazer_button_appearance():
 
 func _update_kill_counter():
 	if kill_counter_label:
-		var remaining = max(0, Globals.total_enemies - Globals.enemies_killed)
-		kill_counter_label.text = "Kills: %d/%d" % [Globals.enemies_killed, Globals.total_enemies]
+		var total = Globals.num_enemies  # Use configured total instead of spawned count
+		kill_counter_label.text = "Kills: %d/%d" % [Globals.enemies_killed, total]
 
 func _on_enemy_killed():
 	_update_kill_counter()
