@@ -1,7 +1,8 @@
 extends Area3D
 
-@export var speed: float = 10.0
+@export var speed: float = 15.0
 @export var damage: int = 10
+@export var rotation_speed: float = 10.0
 
 var direction: Vector3 = Vector3.FORWARD
 var shooter: Node = null
@@ -15,6 +16,9 @@ func _ready():
 func _physics_process(delta):
 	# Move the projectile
 	position += direction * speed * delta
+	
+	# Add rotation for visual effect
+	rotation.z += rotation_speed * delta
 
 func _on_timer_timeout():
 	queue_free()

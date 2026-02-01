@@ -1,12 +1,40 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/laser_projectile.gd" id="1_laser"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_laser"]
-size = Vector3(0.4, 0.4, 3.0)
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_laser"]
+radius = 0.1
+height = 2.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_laser"]
-size = Vector3(0.4, 0.4, 3.0)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_red"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.2, 0.2, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_laser"]
+radius = 0.1
+height = 2.0
+
+[sub_resource type="Gradient" id="Gradient_red_fade"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(1, 0.2, 0.2, 1, 1, 0.4, 0.4, 0.8, 1, 0.6, 0.6, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_red"]
+emission_shape = 1
+emission_sphere_radius = 0.05
+direction = Vector3(0, 0, -1)
+spread = 30.0
+gravity = Vector3(0, -2, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+color = Color(1, 0.2, 0.2, 1)
+color_ramp = SubResource("Gradient_red_fade")
+
+[sub_resource type="BoxMesh" id="BoxMesh_emitter"]
+size = Vector3(0.2, 0.2, 0.2)
 
 [node name="LaserProjectile" type="Area3D"]
 script = ExtResource("1_laser")
@@ -14,10 +42,23 @@ collision_layer = 2
 collision_mask = 1
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_laser")
+mesh = SubResource("CapsuleMesh_laser")
+material_override = SubResource("StandardMaterial3D_red")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_laser")
+shape = SubResource("CapsuleShape3D_laser")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+amount = 20
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_red")
+draw_pass_1 = SubResource("BoxMesh_emitter")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.2, 0.2, 1)
+light_energy = 0.5
+omni_range = 2.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -25,4 +66,4 @@ one_shot = true
 autostart = true
 
 [node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
-aabb = AABB(-0.2, -0.2, -1.5, 0.4, 0.4, 3.0)
+aabb = AABB(-0.1, -0.1, -1.0, 0.2, 0.2, 2.0)
