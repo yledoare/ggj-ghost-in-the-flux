@@ -7,6 +7,7 @@ extends Node3D
 
 var spawned_player_ids: Array = []
 var pause_menu: Control
+var game_over_menu: Control
 var is_paused: bool = false
 var current_plane_size: float = 20.0  # Store the current plane size for reliable access
 @onready var lazer_mask_button = $HUD/LazerMaskButton
@@ -58,6 +59,13 @@ func _setup_pause_menu():
 	add_child(pause_menu)
 	pause_menu.resume_game.connect(_on_resume_game)
 	pause_menu.return_to_menu.connect(_on_return_to_menu)
+	
+	# Setup game over menu
+	var game_over_scene = preload("res://scenes/game_over.tscn")
+	game_over_menu = game_over_scene.instantiate()
+	add_child(game_over_menu)
+	game_over_menu.restart_game.connect(_on_restart_game)
+	game_over_menu.return_to_menu.connect(_on_return_to_menu)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
@@ -100,6 +108,7 @@ func _update_lazer_button_appearance():
 		# Also setup health monitoring for local player
 		if not local_player.health_changed.is_connected(_on_player_health_changed):
 			local_player.health_changed.connect(_on_player_health_changed)
+			local_player.player_died.connect(_on_player_died)
 			_update_health_display()
 
 func _update_kill_counter():
@@ -341,3 +350,14 @@ func _update_gaz_button_appearance():
 		else:
 			gaz_mask_button.modulate = Color.WHITE  # Normal when inactive
 			gaz_mask_button.button_pressed = false  # Reset button state
+
+func _on_player_died():
+	# Show game over menu
+	get_tree().paused = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	game_over_menu.show_game_over()
+
+func _on_restart_game():
+	# Restart the current scene
+	get_tree().paused = false
+	get_tree().reload_current_scene()

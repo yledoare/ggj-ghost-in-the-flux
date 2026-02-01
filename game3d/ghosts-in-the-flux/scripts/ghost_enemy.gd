@@ -12,10 +12,12 @@ var move_animation: String = ""
 
 var health: int = 3  # Enemies need 3 hits to die
 var max_health: int = 3
+var is_dead: bool = false
 
 # Fireball shooting variables
 var fireball_projectile_scene = preload("res://scenes/fireball_projectile.tscn")
 var shoot_timer: Timer = null
+var cooldown_timer: Timer = null
 var can_shoot: bool = true
 
 func _ready():
@@ -32,6 +34,13 @@ func _ready():
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	add_child(shoot_timer)
 	shoot_timer.start()
+	
+	# Setup cooldown timer
+	cooldown_timer = Timer.new()
+	cooldown_timer.wait_time = 0.5  # 0.5 second cooldown
+	cooldown_timer.one_shot = true
+	cooldown_timer.timeout.connect(_on_cooldown_timer_timeout)
+	add_child(cooldown_timer)
 	
 	# Find AnimationPlayer in the ghost model
 	if ghost_model:
@@ -67,7 +76,7 @@ func _ready():
 			push_warning("No AnimationPlayer found in ghost model")
 
 func _physics_process(_delta: float) -> void:
-	if player == null:
+	if player == null or is_dead:
 		return
 	
 	# Calculate distance to player
@@ -101,13 +110,26 @@ func _physics_process(_delta: float) -> void:
 			animation_player.play(idle_animation)
 
 func _on_shoot_timer_timeout():
-	if can_shoot and player != null:
+	if can_shoot and player != null and not is_dead:
 		# Random chance to shoot (50% chance)
 		if randf() < 0.5:
 			shoot_fireball()
 
+func _on_cooldown_timer_timeout():
+	if not is_dead and is_inside_tree():
+		can_shoot = true
+
 func shoot_fireball():
-	if player == null:
+	if is_dead or player == null:
+		return
+	
+	# Check if we're in the scene tree before accessing global_position
+	if not is_inside_tree():
+		return
+	
+	# Store parent reference early
+	var parent = get_parent()
+	if parent == null:
 		return
 	
 	# Create fireball projectile
@@ -115,7 +137,6 @@ func shoot_fireball():
 	
 	# Set position slightly in front of the enemy
 	var shoot_position = global_position + Vector3(0, 1, 0)  # Shoot from chest height
-	fireball.global_position = shoot_position
 	
 	# Calculate direction towards player with some randomness
 	var base_direction = (player.global_position - global_position).normalized()
@@ -130,13 +151,14 @@ func shoot_fireball():
 	# Set the shooter to avoid self-damage
 	fireball.shooter = self
 	
-	# Add to scene
-	get_parent().add_child(fireball)
+	# Add to scene first, then set global position
+	parent.add_child(fireball)
+	fireball.global_position = shoot_position
 	
 	# Prevent shooting again immediately
 	can_shoot = false
-	await get_tree().create_timer(0.5).timeout  # Brief cooldown
-	can_shoot = true
+	if cooldown_timer and is_inside_tree():
+		cooldown_timer.start()  # Start cooldown timer
 
 func take_damage(amount: int):
 	health -= amount
@@ -144,6 +166,14 @@ func take_damage(amount: int):
 	
 	if health <= 0:
 		# Enemy dies
+		is_dead = true
+		# Disconnect and stop timers to prevent further callbacks
+		if shoot_timer:
+			shoot_timer.timeout.disconnect(_on_shoot_timer_timeout)
+			shoot_timer.stop()
+		if cooldown_timer:
+			cooldown_timer.timeout.disconnect(_on_cooldown_timer_timeout)
+			cooldown_timer.stop()
 		Globals.enemies_killed += 1
 		Globals.enemy_killed.emit()
 		queue_free()

@@ -305,9 +305,13 @@ func take_damage(amount: int):
 	health_changed.emit(current_health, max_health)
 	
 	if current_health <= 0:
-		# Player dies - could add game over logic here
+		# Player dies - destroy player and show game over
 		print("Player ", name, " died!")
 		current_health = 0
+		player_died.emit()
+		queue_free()  # Destroy the player
 
 # Signal for health changes
 signal health_changed(current: int, max: int)
+# Signal for player death
+signal player_died
