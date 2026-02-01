@@ -14,6 +14,7 @@ extends CharacterBody3D
 @onready var headband = $Headband
 @onready var mesh = $MeshInstance3D
 var current_zoom: float = 10.0
+var lazer_mask_active: bool = false
 
 func _ready():
 	current_zoom = camera.position.z  # Initialize with current camera position
@@ -107,7 +108,11 @@ func _physics_process(delta: float) -> void:
 	position.z = clamp(position.z, -half_size, half_size)
 
 func equip_headband():
+	lazer_mask_active = !lazer_mask_active
 	if mesh and mesh.get_surface_override_material_count() > 0:
 		var material = mesh.get_surface_override_material(0)
 		if material:
-			material.albedo_color = Color.RED
+			if lazer_mask_active:
+				material.albedo_color = Color.RED
+			else:
+				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color

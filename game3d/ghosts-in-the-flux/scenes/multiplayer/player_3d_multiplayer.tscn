@@ -33,6 +33,9 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath("MeshInstance3D:surface_material_override/0:albedo_color")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath(".:lazer_mask_active")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
 [node name="Player3DMultiplayer" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_mp_player")
