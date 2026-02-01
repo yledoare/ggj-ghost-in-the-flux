@@ -11,6 +11,20 @@ height = 2.0
 radius = 0.5
 height = 2.0
 
+[sub_resource type="SphereMesh" id="SphereMesh_left_eye"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="SphereMesh" id="SphereMesh_right_eye"]
+radius = 0.08
+height = 0.16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye_white"]
+albedo_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye_black"]
+albedo_color = Color(0, 0, 0, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sp1"]
 albedo_color = Color(0.2, 0.6, 1, 1)
 
@@ -35,3 +49,12 @@ texture = ExtResource("2_lazer_mask")
 pixel_size = 0.01
 billboard = 1
 visible = false
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="LeftEye" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.8, -0.45)
+
+[node name="RightEye" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.8, -0.45)

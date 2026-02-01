@@ -13,6 +13,14 @@ extends CharacterBody3D
 @onready var camera = $Camera3D
 @onready var headband = $Headband
 @onready var mesh = $MeshInstance3D
+@onready var head = $Head
+@onready var left_eye = $Head/LeftEye
+@onready var right_eye = $Head/RightEye
+
+# Eye materials
+var eye_white_material = StandardMaterial3D.new()
+var eye_black_material = StandardMaterial3D.new()
+
 var current_zoom: float = 10.0
 var lazer_mask_active: bool = false
 
@@ -20,6 +28,25 @@ var laser_projectile_scene = preload("res://scenes/laser_projectile.tscn")
 
 func _ready():
 	current_zoom = camera.position.z  # Initialize with current camera position
+	
+	# Initialize eye materials
+	eye_white_material.albedo_color = Color.WHITE
+	eye_black_material.albedo_color = Color.BLACK
+	
+	# Create eye meshes
+	var left_eye_mesh = SphereMesh.new()
+	left_eye_mesh.radius = 0.08
+	left_eye_mesh.height = 0.16
+	left_eye.mesh = left_eye_mesh
+	
+	var right_eye_mesh = SphereMesh.new()
+	right_eye_mesh.radius = 0.08
+	right_eye_mesh.height = 0.16
+	right_eye.mesh = right_eye_mesh
+	
+	# Set initial eye colors (white for default state)
+	left_eye.set_surface_override_material(0, eye_white_material)
+	right_eye.set_surface_override_material(0, eye_white_material)
 
 func _input(event):
 	# Handle mouse wheel for zoom
@@ -111,6 +138,24 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
+	# Update eye direction to follow mouse cursor
+	var mouse_pos = get_viewport().get_mouse_position()
+	if camera:
+		var from = camera.project_ray_origin(mouse_pos)
+		var dir = camera.project_ray_normal(mouse_pos)
+		
+		# Find intersection with ground plane (y = 0)
+		var plane = Plane(Vector3.UP, 0)
+		var intersection = plane.intersects_ray(from, dir)
+		
+		if intersection:
+			# Make the head look at the mouse intersection point
+			head.look_at(intersection, Vector3.UP)
+		else:
+			# Fallback to camera forward direction
+			var camera_forward = -camera.global_transform.basis.z.normalized()
+			head.look_at(head.global_position + camera_forward, Vector3.UP)
+	
 	# Get current plane size from the map (more reliable than reading mesh)
 	var plane_size = 20.0  # default fallback
 	var map = get_tree().get_first_node_in_group("map")
@@ -139,8 +184,14 @@ func toggle_headband():
 		if material:
 			if lazer_mask_active:
 				material.albedo_color = Color.RED
+				# Change eyes to black when lazer mask is active
+				left_eye.set_surface_override_material(0, eye_black_material)
+				right_eye.set_surface_override_material(0, eye_black_material)
 			else:
 				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
+				# Change eyes to white when lazer mask is inactive
+				left_eye.set_surface_override_material(0, eye_white_material)
+				right_eye.set_surface_override_material(0, eye_white_material)
 
 func shoot_laser():
 	var mouse_pos = get_viewport().get_mouse_position()

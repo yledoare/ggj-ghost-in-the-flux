@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://05xr7wisnqe3"]
 
-[ext_resource type="PackedScene" path="res://scenes/player_3d.tscn" id="1_3s4md"]
+[ext_resource type="PackedScene" uid="uid://bvw8y3xk7mdny" path="res://scenes/player_3d.tscn" id="1_3s4md"]
 [ext_resource type="PackedScene" uid="uid://cg5w3yk2h7mdp" path="res://scenes/ghost_enemy.tscn" id="2_gh0st"]
 [ext_resource type="Script" uid="uid://ccbumj56y074t" path="res://scripts/enemy_spawner.gd" id="3_spawn"]
 [ext_resource type="AudioStream" uid="uid://ctpssnidvwroh" path="res://assets/music/ghosty.ogg" id="4_music"]
@@ -53,12 +53,10 @@ offset_bottom = 987.0
 scale = Vector2(0.14834644, 0.15555556)
 texture_normal = ExtResource("7_lazer_mask")
 
-[node name="KillCounter" type="Label" parent="HUD"]
+[node name="KillCounter" type="Label" parent="HUD" unique_id=1165658221]
 anchors_preset = 1
 anchor_left = 1.0
-anchor_top = 0.0
 anchor_right = 1.0
-anchor_bottom = 0.0
 offset_left = -200.0
 offset_top = 25.0
 offset_right = -25.0
