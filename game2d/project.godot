@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="gamejam"
-run/main_scene="res://intro.tscn"
+run/main_scene="uid://ym5br8beitfx"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -67,7 +67,9 @@ choices/delay=0.2
 choices/reveal_delay=0
 choices/reveal_by_input=false
 text/autopauses={}
-variables={}
+variables={
+"Masque": false
+}
 layout/style_list=[]
 layout/default_style="Default"
 text/autoadvance_enabled=false

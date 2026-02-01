@@ -11,7 +11,7 @@ schizo: Mais il reste un espoir, un salut! Ce masque te protègera jeune homme, 
 	schizo: pauvre fou!
 - prendre le masque*
 	schizo: excellent choix mon garçon
-	set {masque_covid} = true
+	set {Masque} = true
 schizo: ...
 schizo: ...
 schizo: *tousse*
