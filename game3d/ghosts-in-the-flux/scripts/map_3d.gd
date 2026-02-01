@@ -98,7 +98,7 @@ func spawn_obstacles():
 	for i in range(Globals.nb_obstacles):
 		var wall = wall_scene.instantiate()
 		
-		# Generate random position on the plane
+		# Generate random position on the planea
 		var spawn_pos = Vector3.ZERO
 		var valid_position = false
 		var attempts = 0

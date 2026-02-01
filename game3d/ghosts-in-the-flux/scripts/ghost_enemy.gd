@@ -10,6 +10,9 @@ var player: Node3D = null
 var idle_animation: String = ""
 var move_animation: String = ""
 
+var health: int = 3  # Enemies need 3 hits to die
+var max_health: int = 3
+
 func _ready():
 	# Add to enemy group for projectile collision detection
 	add_to_group("enemy")
@@ -83,3 +86,13 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector3.ZERO
 		if animation_player and idle_animation != "" and animation_player.current_animation != idle_animation:
 			animation_player.play(idle_animation)
+
+func take_damage(amount: int):
+	health -= amount
+	print("Enemy took ", amount, " damage! Health: ", health, "/", max_health)
+	
+	if health <= 0:
+		# Enemy dies
+		Globals.enemies_killed += 1
+		Globals.enemy_killed.emit()
+		queue_free()
