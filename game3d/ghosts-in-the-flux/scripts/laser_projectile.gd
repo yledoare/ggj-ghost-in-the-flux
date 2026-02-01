@@ -136,6 +136,9 @@ func _on_body_entered(body):
 		else:
 			# If no take_damage method, just destroy immediately
 			queue_free()
+	elif body.is_in_group("obstacle"):
+		# Hit a wall or obstacle, just destroy the projectile
+		queue_free()
 
 func _play_shoot_sound():
 	if $ShootSound and $ShootSound.stream:
