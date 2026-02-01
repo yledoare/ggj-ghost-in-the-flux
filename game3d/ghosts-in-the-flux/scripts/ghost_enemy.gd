@@ -13,12 +13,25 @@ var move_animation: String = ""
 var health: int = 3  # Enemies need 3 hits to die
 var max_health: int = 3
 
+# Fireball shooting variables
+var fireball_projectile_scene = preload("res://scenes/fireball_projectile.tscn")
+var shoot_timer: Timer = null
+var can_shoot: bool = true
+
 func _ready():
 	# Add to enemy group for projectile collision detection
 	add_to_group("enemy")
 	
 	# Find the player in the scene
 	player = get_tree().get_first_node_in_group("player")
+	
+	# Setup shooting timer
+	shoot_timer = Timer.new()
+	shoot_timer.wait_time = 2.0  # Shoot every 2 seconds
+	shoot_timer.one_shot = false
+	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
+	add_child(shoot_timer)
+	shoot_timer.start()
 	
 	# Find AnimationPlayer in the ghost model
 	if ghost_model:
@@ -86,6 +99,44 @@ func _physics_process(_delta: float) -> void:
 		velocity = Vector3.ZERO
 		if animation_player and idle_animation != "" and animation_player.current_animation != idle_animation:
 			animation_player.play(idle_animation)
+
+func _on_shoot_timer_timeout():
+	if can_shoot and player != null:
+		# Random chance to shoot (50% chance)
+		if randf() < 0.5:
+			shoot_fireball()
+
+func shoot_fireball():
+	if player == null:
+		return
+	
+	# Create fireball projectile
+	var fireball = fireball_projectile_scene.instantiate()
+	
+	# Set position slightly in front of the enemy
+	var shoot_position = global_position + Vector3(0, 1, 0)  # Shoot from chest height
+	fireball.global_position = shoot_position
+	
+	# Calculate direction towards player with some randomness
+	var base_direction = (player.global_position - global_position).normalized()
+	var random_offset = Vector3(
+		randf_range(-0.3, 0.3),  # Small horizontal spread
+		randf_range(-0.1, 0.1),  # Small vertical spread
+		randf_range(-0.3, 0.3)   # Small depth spread
+	)
+	var direction = (base_direction + random_offset).normalized()
+	fireball.direction = direction
+	
+	# Set the shooter to avoid self-damage
+	fireball.shooter = self
+	
+	# Add to scene
+	get_parent().add_child(fireball)
+	
+	# Prevent shooting again immediately
+	can_shoot = false
+	await get_tree().create_timer(0.5).timeout  # Brief cooldown
+	can_shoot = true
 
 func take_damage(amount: int):
 	health -= amount

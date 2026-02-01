@@ -291,11 +291,6 @@ func _spawn_enemies_delayed():
 	if enemy_spawner:
 		enemy_spawner.spawn_enemies()
 
-func _on_lazer_mask_pressed():
-	# HUD button is now just a visual indicator - don't toggle here
-	# The toggle is only controlled by touch 1
-	pass
-
 func _update_lazer_button_appearance():
 	# Get the local player
 	var local_player = null
