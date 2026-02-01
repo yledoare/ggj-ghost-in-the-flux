@@ -1,0 +1,5 @@
+declare module "godot" {
+    interface ResourceTypes {
+        "res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble_layer_icon.svg": CompressedTexture2D;
+    }
+}
