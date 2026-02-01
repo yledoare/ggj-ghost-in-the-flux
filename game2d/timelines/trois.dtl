@@ -1,8 +1,4 @@
-join virus rightmost
-virus: ...
-leave virus
-join narrateur rightmost
-narrateur: (Je devrais partir rapidement d'ici...)
-leave narrateur
+...
+(Je devrais partir rapidement d'ici...)
 [signal arg="fin1"]
 [end_timeline]

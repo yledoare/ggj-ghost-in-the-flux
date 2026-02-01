@@ -1,22 +1,20 @@
 {
 "@path": "res://addons/dialogic/Resources/character.gd",
 "@subpath": NodePath(""),
-&"_translation_id": "",
-&"color": Color(1, 1, 1, 1),
-&"custom_info": {
-"prefix": "",
+"_translation_id": "",
+"color": Color(1, 1, 1, 1),
+"custom_info": {
 "sound_mood_default": "",
 "sound_moods": {},
-"style": "",
-"suffix": ""
+"style": ""
 },
-&"default_portrait": "black",
-&"description": "",
-&"display_name": "Ce n'est pas censé arriver",
-&"mirror": false,
-&"nicknames": [""],
-&"offset": Vector2(0, 0),
-&"portraits": {
+"default_portrait": "black",
+"description": "",
+"display_name": "Ce n'est pas censé arriver",
+"mirror": false,
+"nicknames": [""],
+"offset": Vector2(0, 0),
+"portraits": {
 "black": {
 "export_overrides": {
 "image": "\"res://assets/black.png\""
@@ -25,16 +23,7 @@
 "offset": Vector2(0, 0),
 "scale": 1.0,
 "scene": ""
-},
-"virus": {
-"export_overrides": {
-"image": "\"res://assets/virus.png\""
-},
-"mirror": false,
-"offset": Vector2(0, 0),
-"scale": 1,
-"scene": ""
 }
 },
-&"scale": 1.0
+"scale": 1.0
 }
