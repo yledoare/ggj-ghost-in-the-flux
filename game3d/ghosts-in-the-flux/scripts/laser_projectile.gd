@@ -35,4 +35,6 @@ func _on_body_entered(body):
 	elif body.is_in_group("enemy"):
 		# Destroy enemy
 		body.queue_free()
+		Globals.enemies_killed += 1
+		Globals.enemy_killed.emit()
 		queue_free()

@@ -74,3 +74,12 @@ offset_bottom = 987.0
 scale = Vector2(0.14834644, 0.15555556)
 texture_normal = ExtResource("7_lazer_mask")
 
+[node name="KillCounter" type="Label" parent="HUD"]
+offset_left = 25.0
+offset_top = 80.0
+offset_right = 200.0
+offset_bottom = 120.0
+theme_override_font_sizes/font_size = 24
+text = "Kills: 0/0"
+horizontal_alignment = 1
+

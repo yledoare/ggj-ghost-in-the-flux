@@ -70,6 +70,7 @@ func spawn_enemies():
 		
 		ghost.position = spawn_pos
 		container.add_child(ghost, true)
+		Globals.total_enemies += 1
 
 func _spawn_enemies_no_player_check():
 	var num_enemies = Globals.num_enemies * enemy_multiplier
@@ -100,3 +101,4 @@ func _spawn_enemies_no_player_check():
 		
 		ghost.position = spawn_pos
 		container.add_child(ghost, true)
+		Globals.total_enemies += 1

@@ -7,8 +7,12 @@ var spawned_player_ids: Array = []
 var pause_menu: Control
 var is_paused: bool = false
 @onready var lazer_mask_button = $HUD/LazerMaskButton
+@onready var kill_counter_label = $HUD/KillCounter
 
 func _ready():
+	# Reset enemy counters for new game
+	Globals.reset_enemy_counters()
+	
 	# Connect to player connection/disconnection signals
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
@@ -21,6 +25,12 @@ func _ready():
 	
 	# Update button appearance
 	_update_lazer_button_appearance()
+	
+	# Initialize kill counter
+	_update_kill_counter()
+	
+	# Connect enemy killed signal
+	Globals.enemy_killed.connect(_on_enemy_killed)
 	
 	# Add to map group for player communication
 	add_to_group("map")
@@ -75,6 +85,14 @@ func _update_lazer_button_appearance():
 		else:
 			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
 			lazer_mask_button.button_pressed = false  # Reset button state
+
+func _update_kill_counter():
+	if kill_counter_label:
+		var remaining = max(0, Globals.total_enemies - Globals.enemies_killed)
+		kill_counter_label.text = "Kills: %d/%d" % [Globals.enemies_killed, Globals.total_enemies]
+
+func _on_enemy_killed():
+	_update_kill_counter()
 
 func get_local_player():
 	var my_id = multiplayer.get_unique_id()
