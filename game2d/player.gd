@@ -6,9 +6,10 @@ var dialogue = false
 var marche = false
 var perso = "151"
 var dialogues = []
+var masque_covid = false
 
 func _ready() -> void:
-	$"anim".play("rien")
+	$"anim".play("marche")
 	Dialogic.signal_event.connect(_on_dialogic_signal)
 
 func _physics_process(delta: float) -> void:
@@ -40,10 +41,16 @@ func _physics_process(delta: float) -> void:
 		marche = false
 
 func _process(delta: float) -> void:
-	if marche:
-		$"anim".play("marche")
+	if masque_covid == true :
+		if marche:
+			$"anim".play("marche_masque_base")
+		else:
+			$"anim".play("rien_masque_base")
 	else:
-		$"anim".play("rien")
+		if marche:
+			$"anim".play("marche")
+		else:
+			$"anim".play("rien")
 
 func _on_dialogic_signal(argument:String):
 	if argument == "stopdial":
