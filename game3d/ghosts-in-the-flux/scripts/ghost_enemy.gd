@@ -11,6 +11,9 @@ var idle_animation: String = ""
 var move_animation: String = ""
 
 func _ready():
+	# Add to enemy group for projectile collision detection
+	add_to_group("enemy")
+	
 	# Find the player in the scene
 	player = get_tree().get_first_node_in_group("player")
 	

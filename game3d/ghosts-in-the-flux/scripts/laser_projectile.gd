@@ -32,3 +32,7 @@ func _on_body_entered(body):
 		if body.has_method("take_damage"):
 			body.take_damage(damage)
 		queue_free()
+	elif body.is_in_group("enemy"):
+		# Destroy enemy
+		body.queue_free()
+		queue_free()
