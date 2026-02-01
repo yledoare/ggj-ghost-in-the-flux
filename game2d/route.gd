@@ -14,5 +14,6 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Coeur/texteCoeur.text=str(Var.vie)
 	if not pause:
 		$"TileMap".position.x -= delta*700

@@ -70,9 +70,10 @@ shape = SubResource("CapsuleShape2D_68w6r")
 
 [node name="anim" type="AnimatedSprite2D" parent="." unique_id=108871292]
 sprite_frames = SubResource("SpriteFrames_lecoe")
-animation = &"rien_masque_base"
+animation = &"marche_masque_base"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=868234875]
+process_callback = 0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=661592251]
 

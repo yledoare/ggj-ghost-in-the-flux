@@ -10,8 +10,8 @@ schizo: Mais il reste un espoir, un salut! Ce masque te protègera jeune homme, 
 	join schizo 0
 	schizo: pauvre fou!
 - prendre le masque*
+	[signal arg="aMasque"]
 	schizo: excellent choix mon garçon
-	set {Masque} = true
 schizo: ...
 schizo: ...
 schizo: *tousse*
