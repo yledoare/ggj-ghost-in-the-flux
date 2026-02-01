@@ -16,6 +16,8 @@ extends CharacterBody3D
 var current_zoom: float = 10.0
 var lazer_mask_active: bool = false
 
+var laser_projectile_scene = preload("res://scenes/laser_projectile.tscn")
+
 func _ready():
 	current_zoom = camera.position.z  # Initialize with current camera position
 
@@ -28,6 +30,11 @@ func _input(event):
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:
 			current_zoom = min(max_zoom, current_zoom + zoom_speed)
 			update_camera_zoom()
+	
+	# Handle shooting with left mouse button when lazer mask is active
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if lazer_mask_active:
+			shoot_laser()
 
 func update_camera_zoom():
 	if camera:
@@ -116,3 +123,35 @@ func equip_headband():
 				material.albedo_color = Color.RED
 			else:
 				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
+
+func shoot_laser():
+	var mouse_pos = get_viewport().get_mouse_position()
+	var camera = get_viewport().get_camera_3d()
+	if camera:
+		var from = camera.project_ray_origin(mouse_pos)
+		var dir = camera.project_ray_normal(mouse_pos)
+		
+		# Find intersection with ground plane (y = 0)
+		var plane = Plane(Vector3.UP, 0)
+		var intersection = plane.intersects_ray(from, dir)
+		
+		if intersection:
+			var target_dir = (intersection - position).normalized()
+			spawn_laser(position + Vector3(0, 1, 0) + target_dir * 1.5, target_dir)
+		else:
+			# Fallback to forward direction
+			spawn_laser(position + Vector3(0, 1, 0) + transform.basis.z * 1.5, transform.basis.z.normalized())
+	else:
+		# Fallback if no camera
+		spawn_laser(position + Vector3(0, 1, 0) + transform.basis.z * 1.5, transform.basis.z.normalized())
+
+func spawn_laser(pos: Vector3, dir: Vector3):
+	var laser = laser_projectile_scene.instantiate()
+	laser.position = pos
+	laser.direction = dir
+	laser.shooter = self
+	get_parent().add_child(laser)
+
+func take_damage(amount: int):
+	print("Player took ", amount, " damage!")
+	# TODO: Implement health system

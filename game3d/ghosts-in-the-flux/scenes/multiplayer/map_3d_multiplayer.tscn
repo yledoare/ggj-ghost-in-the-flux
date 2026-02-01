@@ -33,6 +33,8 @@ shape = SubResource("BoxShape3D_mp1")
 
 [node name="Obstacles" type="Node3D" parent="."]
 
+[node name="Projectiles" type="Node3D" parent="."]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 10, 0)
 shadow_enabled = true
@@ -57,6 +59,10 @@ spawn_path = NodePath("../Players")
 [node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/ghost_enemy.tscn")
 spawn_path = NodePath("../Enemies")
+
+[node name="ProjectileMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/laser_projectile.tscn")
+spawn_path = NodePath("../Projectiles")
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
