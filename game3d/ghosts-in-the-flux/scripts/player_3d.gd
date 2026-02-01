@@ -193,33 +193,38 @@ func equip_headband():
 
 func toggle_lazer_mask():
 	lazer_mask_active = !lazer_mask_active
+	update_player_color()
+
+func toggle_gaz_mask():
+	gaz_mask_active = !gaz_mask_active
+	update_player_color()
+
+func update_player_color():
 	if mesh and mesh.get_surface_override_material_count() > 0:
 		var material = mesh.get_surface_override_material(0)
 		if material:
-			if lazer_mask_active:
+			if lazer_mask_active and gaz_mask_active:
+				# Both masks active - orange color
+				material.albedo_color = Color.ORANGE
+				# Change eyes to black when any mask is active
+				left_eye.set_surface_override_material(0, eye_black_material)
+				right_eye.set_surface_override_material(0, eye_black_material)
+			elif lazer_mask_active:
+				# Only lazer mask active - red color
 				material.albedo_color = Color.RED
 				# Change eyes to black when lazer mask is active
 				left_eye.set_surface_override_material(0, eye_black_material)
 				right_eye.set_surface_override_material(0, eye_black_material)
-			else:
-				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
-				# Change eyes to white when lazer mask is inactive
-				left_eye.set_surface_override_material(0, eye_white_material)
-				right_eye.set_surface_override_material(0, eye_white_material)
-
-func toggle_gaz_mask():
-	gaz_mask_active = !gaz_mask_active
-	if mesh and mesh.get_surface_override_material_count() > 0:
-		var material = mesh.get_surface_override_material(0)
-		if material:
-			if gaz_mask_active:
-				material.albedo_color = Color.GREEN  # Green color for gas mask
+			elif gaz_mask_active:
+				# Only gas mask active - green color
+				material.albedo_color = Color.GREEN
 				# Change eyes to black when gas mask is active
 				left_eye.set_surface_override_material(0, eye_black_material)
 				right_eye.set_surface_override_material(0, eye_black_material)
 			else:
-				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
-				# Change eyes to white when gas mask is inactive
+				# No masks active - default blue color
+				material.albedo_color = Color(0.2, 0.6, 1, 1)
+				# Change eyes to white when no masks are active
 				left_eye.set_surface_override_material(0, eye_white_material)
 				right_eye.set_surface_override_material(0, eye_white_material)
 
