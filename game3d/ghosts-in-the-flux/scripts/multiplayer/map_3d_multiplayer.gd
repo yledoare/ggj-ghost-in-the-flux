@@ -18,11 +18,14 @@ func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
 	
+	# Hide mouse cursor for gameplay
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+	
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 	
-	# Enable toggle mode for the button
-	lazer_mask_button.toggle_mode = true
+	# Disable the button since it's now just a visual indicator
+	lazer_mask_button.disabled = true
 	
 	# Update button appearance
 	_update_lazer_button_appearance()
@@ -59,7 +62,7 @@ func toggle_pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		pause_menu.hide_pause()
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 func _on_resume_game():
 	toggle_pause()
@@ -72,10 +75,9 @@ func _on_return_to_menu():
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func _on_lazer_mask_pressed():
-	var local_player = get_local_player()
-	if local_player:
-		local_player.toggle_headband()
-		_update_lazer_button_appearance()
+	# HUD button is now just a visual indicator - don't toggle here
+	# The toggle is only controlled by space bar
+	pass
 
 func _update_lazer_button_appearance():
 	var local_player = get_local_player()

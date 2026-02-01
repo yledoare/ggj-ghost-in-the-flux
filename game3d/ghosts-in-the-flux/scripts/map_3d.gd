@@ -19,11 +19,14 @@ func _ready():
 	# Setup pause menu
 	call_deferred("_setup_pause_menu")
 	
+	# Hide mouse cursor for gameplay
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
+	
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 	
-	# Enable toggle mode for the button
-	lazer_mask_button.toggle_mode = true
+	# Disable the button since it's now just a visual indicator
+	lazer_mask_button.disabled = true
 	
 	# Update button appearance
 	_update_lazer_button_appearance()
@@ -56,7 +59,7 @@ func toggle_pause():
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		pause_menu.hide_pause()
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED_HIDDEN)
 
 func _on_resume_game():
 	toggle_pause()
@@ -127,9 +130,9 @@ func spawn_obstacles():
 		add_child(wall)
 
 func _on_lazer_mask_pressed():
-	if player:
-		player.toggle_headband()
-		_update_lazer_button_appearance()
+	# HUD button is now just a visual indicator - don't toggle here
+	# The toggle is only controlled by space bar
+	pass
 
 func _update_lazer_button_appearance():
 	if player and lazer_mask_button:
