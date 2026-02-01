@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
-var SPEED = 200.0
+var SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 var dialogue = false
 var marche = false
 var perso = "151"
 var dialogues = []
-var masque_covid = false
+var masque_covid = Var.masque
 
 func _ready() -> void:
 	$"anim".play("marche")
@@ -79,7 +79,10 @@ func _on_dialogic_signal(argument:String):
 		$"eglise".play()
 	if argument == "enfin":
 		get_tree().change_scene_to_file("res://intro.tscn")
-		
+	if argument=="aMasque":
+		Var.masque=true
+		Var.vie+=2
+		masque_covid=true
 func _on_timer_timeout() -> void:
 	dialogue = true
 	$"brouillard2".visible = false
@@ -113,8 +116,13 @@ func c3():
 	Dialogic.start("dormir")
 
 func touche_voiture():
-	$"../respawn".visible = true
-	$"..".pause = true
+	if Var.vie<=0:
+		$"../respawn".visible = true
+		$"..".pause = true
+		if masque_covid:
+			Var.vie=3
+		else:
+			Var.vie=1
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	print("cc")

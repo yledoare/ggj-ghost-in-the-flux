@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cfq7xase3kudu" path="res://fin.gd" id="1_crh43"]
 [ext_resource type="PackedScene" uid="uid://ecttcm3hbisj" path="res://player.tscn" id="2_4e8be"]
 [ext_resource type="TileSet" uid="uid://chg65wnj81tjj" path="res://intro.tres" id="3_y84q3"]
-[ext_resource type="Texture2D" uid="uid://dkw2rmriimv0r" path="res://assets/virus.png" id="4_3jrsg"]
+[ext_resource type="Texture2D" uid="uid://cgstydypjdmak" path="res://virus.png" id="4_3jrsg"]
 
 [node name="fin" type="Node2D" unique_id=1796262853]
 script = ExtResource("1_crh43")
@@ -19,4 +19,5 @@ position = Vector2(529, 315)
 
 [node name="Virus" type="Sprite2D" parent="." unique_id=1980521103]
 position = Vector2(990, 320)
+scale = Vector2(-3, -2.179661)
 texture = ExtResource("4_3jrsg")

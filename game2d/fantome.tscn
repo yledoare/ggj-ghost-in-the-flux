@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dfghkxfdyxtv8"]
 
-[ext_resource type="Texture2D" uid="uid://dkw2rmriimv0r" path="res://assets/virus.png" id="1_kuaa7"]
+[ext_resource type="Texture2D" uid="uid://cgstydypjdmak" path="res://virus.png" id="1_kuaa7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fc3ig"]
 size = Vector2(128, 128)
@@ -14,6 +14,7 @@ disabled = true
 metadata/_edit_group_ = true
 
 [node name="Virus" type="Sprite2D" parent="." unique_id=1362455791]
-position = Vector2(0, -0.5)
+position = Vector2(20, 22)
+scale = Vector2(4.1165013, 2.9146929)
 texture = ExtResource("1_kuaa7")
 metadata/_edit_group_ = true

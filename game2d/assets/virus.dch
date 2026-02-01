@@ -19,7 +19,7 @@
 &"portraits": {
 "virus": {
 "export_overrides": {
-"image": "\"res://assets/virus.png\""
+"image": "\"res://virus.png\""
 },
 "mirror": false,
 "offset": Vector2(0, 0),

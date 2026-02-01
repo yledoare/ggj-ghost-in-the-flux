@@ -22,6 +22,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+Var="*uid://da2clsut2l013"
 
 [dialogic]
 
