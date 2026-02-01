@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bvl4b1hmdr7tm" path="res://assets/perso2.png" id="3_ey8e3"]
 [ext_resource type="AudioStream" uid="uid://clso5171iggay" path="res://assets/bref.ogg" id="4_a07fv"]
 [ext_resource type="AudioStream" uid="uid://47rhxfxgiiq4" path="res://assets/ambiance.ogg" id="4_hbjq7"]
+[ext_resource type="Texture2D" uid="uid://ci4ujrghgp0w" path="res://nouvelle icones superflux/perso_masque.png" id="4_n7ghd"]
+[ext_resource type="Texture2D" uid="uid://csbqk0gxgbg86" path="res://nouvelle icones superflux/perso2_masque.png" id="5_nvl01"]
 [ext_resource type="Texture2D" uid="uid://d0ehot11dk7ec" path="res://assets/b2.png" id="5_ufmrm"]
 [ext_resource type="AudioStream" uid="uid://gvdoji7v3hxq" path="res://assets/feuilles.ogg" id="6_db256"]
 [ext_resource type="AudioStream" uid="uid://b1svbl3c18e36" path="res://assets/laby.ogg" id="6_dptrk"]
@@ -29,10 +31,29 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("4_n7ghd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_nvl01")
+}],
+"loop": true,
+"name": &"marche_masque_base",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("1_sqapa")
 }],
 "loop": true,
 "name": &"rien",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_n7ghd")
+}],
+"loop": true,
+"name": &"rien_masque_base",
 "speed": 5.0
 }]
 
@@ -49,7 +70,7 @@ shape = SubResource("CapsuleShape2D_68w6r")
 
 [node name="anim" type="AnimatedSprite2D" parent="." unique_id=108871292]
 sprite_frames = SubResource("SpriteFrames_lecoe")
-animation = &"marche"
+animation = &"rien_masque_base"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=868234875]
 
