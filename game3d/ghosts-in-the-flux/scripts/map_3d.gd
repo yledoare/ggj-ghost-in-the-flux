@@ -8,6 +8,7 @@ var pause_menu: Control
 var is_paused: bool = false
 var current_plane_size: float = 20.0  # Store the current plane size for reliable access
 @onready var lazer_mask_button = $HUD/LazerMaskButton
+@onready var gaz_mask_button = $HUD/GazMaskButton
 @onready var kill_counter_label = $HUD/KillCounter
 @onready var player = $Player3D
 
@@ -27,12 +28,15 @@ func _ready():
 	
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
+	gaz_mask_button.pressed.connect(_on_gaz_mask_pressed)
 	
-	# Disable the button since it's now just a visual indicator
+	# Disable the buttons since they're now just visual indicators
 	lazer_mask_button.disabled = true
+	gaz_mask_button.disabled = true
 	
 	# Update button appearance
 	_update_lazer_button_appearance()
+	_update_gaz_button_appearance()
 	
 	# Initialize kill counter
 	_update_kill_counter()
@@ -191,6 +195,20 @@ func _update_lazer_button_appearance():
 		else:
 			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
 			lazer_mask_button.button_pressed = false  # Reset button state
+
+func _on_gaz_mask_pressed():
+	# HUD button is now just a visual indicator - don't toggle here
+	# The toggle is only controlled by touch 2
+	pass
+
+func _update_gaz_button_appearance():
+	if player and gaz_mask_button:
+		if player.gaz_mask_active:
+			gaz_mask_button.modulate = Color.GREEN  # Green tint when active
+			gaz_mask_button.button_pressed = true  # Keep button in pressed state
+		else:
+			gaz_mask_button.modulate = Color.WHITE  # Normal when inactive
+			gaz_mask_button.button_pressed = false  # Reset button state
 
 func _update_kill_counter():
 	if kill_counter_label:

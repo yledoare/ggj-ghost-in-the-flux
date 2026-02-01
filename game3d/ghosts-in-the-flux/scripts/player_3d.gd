@@ -23,6 +23,7 @@ var eye_black_material = StandardMaterial3D.new()
 
 var current_zoom: float = 10.0
 var lazer_mask_active: bool = false
+var gaz_mask_active: bool = false
 
 var laser_projectile_scene = preload("res://scenes/laser_projectile.tscn")
 
@@ -65,11 +66,24 @@ func _input(event):
 	
 	# Handle space key for lazer mask toggle
 	if event.is_action_pressed("jump"):
-		toggle_headband()
+		toggle_lazer_mask()
 		# Notify the map to update HUD button
 		var map = get_tree().get_first_node_in_group("map")
 		if map and map.has_method("_update_lazer_button_appearance"):
 			map._update_lazer_button_appearance()
+	
+	# Handle keyboard keys 1 and 2 for mask selection
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_1:
+			toggle_lazer_mask()
+			var map = get_tree().get_first_node_in_group("map")
+			if map and map.has_method("_update_lazer_button_appearance"):
+				map._update_lazer_button_appearance()
+		elif event.keycode == KEY_2:
+			toggle_gaz_mask()
+			var map = get_tree().get_first_node_in_group("map")
+			if map and map.has_method("_update_gaz_button_appearance"):
+				map._update_gaz_button_appearance()
 
 func update_camera_zoom():
 	if camera:
@@ -177,7 +191,7 @@ func equip_headband():
 		if material:
 			material.albedo_color = Color.RED
 
-func toggle_headband():
+func toggle_lazer_mask():
 	lazer_mask_active = !lazer_mask_active
 	if mesh and mesh.get_surface_override_material_count() > 0:
 		var material = mesh.get_surface_override_material(0)
@@ -190,6 +204,22 @@ func toggle_headband():
 			else:
 				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
 				# Change eyes to white when lazer mask is inactive
+				left_eye.set_surface_override_material(0, eye_white_material)
+				right_eye.set_surface_override_material(0, eye_white_material)
+
+func toggle_gaz_mask():
+	gaz_mask_active = !gaz_mask_active
+	if mesh and mesh.get_surface_override_material_count() > 0:
+		var material = mesh.get_surface_override_material(0)
+		if material:
+			if gaz_mask_active:
+				material.albedo_color = Color.GREEN  # Green color for gas mask
+				# Change eyes to black when gas mask is active
+				left_eye.set_surface_override_material(0, eye_black_material)
+				right_eye.set_surface_override_material(0, eye_black_material)
+			else:
+				material.albedo_color = Color(0.2, 0.6, 1, 1)  # Default blue color
+				# Change eyes to white when gas mask is inactive
 				left_eye.set_surface_override_material(0, eye_white_material)
 				right_eye.set_surface_override_material(0, eye_white_material)
 

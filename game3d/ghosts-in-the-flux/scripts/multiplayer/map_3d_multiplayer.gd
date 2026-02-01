@@ -10,6 +10,7 @@ var pause_menu: Control
 var is_paused: bool = false
 var current_plane_size: float = 20.0  # Store the current plane size for reliable access
 @onready var lazer_mask_button = $HUD/LazerMaskButton
+@onready var gaz_mask_button = $HUD/GazMaskButton
 @onready var kill_counter_label = $HUD/KillCounter
 
 func _ready():
@@ -25,12 +26,15 @@ func _ready():
 	
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
+	gaz_mask_button.pressed.connect(_on_gaz_mask_pressed)
 	
-	# Disable the button since it's now just a visual indicator
+	# Disable the buttons since they're now just visual indicators
 	lazer_mask_button.disabled = true
+	gaz_mask_button.disabled = true
 	
 	# Update button appearance
 	_update_lazer_button_appearance()
+	_update_gaz_button_appearance()
 	
 	# Initialize kill counter
 	_update_kill_counter()
@@ -286,3 +290,45 @@ func _spawn_enemies_delayed():
 	var enemy_spawner = $EnemySpawner
 	if enemy_spawner:
 		enemy_spawner.spawn_enemies()
+
+func _on_lazer_mask_pressed():
+	# HUD button is now just a visual indicator - don't toggle here
+	# The toggle is only controlled by touch 1
+	pass
+
+func _update_lazer_button_appearance():
+	# Get the local player
+	var local_player = null
+	for player_id in spawned_player_ids:
+		if player_id == multiplayer.get_unique_id():
+			local_player = $Players.get_node_or_null("Player_" + str(player_id))
+			break
+	
+	if local_player and lazer_mask_button:
+		if local_player.lazer_mask_active:
+			lazer_mask_button.modulate = Color.GREEN  # Green tint when active
+			lazer_mask_button.button_pressed = true  # Keep button in pressed state
+		else:
+			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
+			lazer_mask_button.button_pressed = false  # Reset button state
+
+func _on_gaz_mask_pressed():
+	# HUD button is now just a visual indicator - don't toggle here
+	# The toggle is only controlled by touch 2
+	pass
+
+func _update_gaz_button_appearance():
+	# Get the local player
+	var local_player = null
+	for player_id in spawned_player_ids:
+		if player_id == multiplayer.get_unique_id():
+			local_player = $Players.get_node_or_null("Player_" + str(player_id))
+			break
+	
+	if local_player and gaz_mask_button:
+		if local_player.gaz_mask_active:
+			gaz_mask_button.modulate = Color.GREEN  # Green tint when active
+			gaz_mask_button.button_pressed = true  # Keep button in pressed state
+		else:
+			gaz_mask_button.modulate = Color.WHITE  # Normal when inactive
+			gaz_mask_button.button_pressed = false  # Reset button state

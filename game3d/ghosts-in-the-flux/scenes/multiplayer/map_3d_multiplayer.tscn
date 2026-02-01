@@ -7,7 +7,9 @@
 [ext_resource type="Script" path="res://scripts/multiplayer/map_3d_multiplayer.gd" id="5_mp_map"]
 [ext_resource type="PackedScene" uid="uid://c8w8w8w8w8w8" path="res://scenes/wall_obstacle.tscn" id="6_wall"]
 [ext_resource type="PackedScene" uid="uid://campfire_scene" path="res://scenes/campfire.tscn" id="8_campfire"]
+[ext_resource type="PackedScene" uid="uid://fog_system_scene" path="res://scenes/fog_system.tscn" id="9_fog_system"]
 [ext_resource type="Texture2D" path="res://assets/img/lazer_mask.png" id="7_lazer_mask"]
+[ext_resource type="Texture2D" path="res://assets/img/gaz_mask.png" id="10_gaz_mask"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mp1"]
 size = Vector2(20, 20)
@@ -77,6 +79,14 @@ offset_bottom = 987.0
 scale = Vector2(0.14834644, 0.15555556)
 texture_normal = ExtResource("7_lazer_mask")
 
+[node name="GazMaskButton" type="TextureButton" parent="HUD"]
+offset_left = 125.0
+offset_top = 25.0
+offset_right = 1069.0
+offset_bottom = 987.0
+scale = Vector2(0.14834644, 0.15555556)
+texture_normal = ExtResource("10_gaz_mask")
+
 [node name="KillCounter" type="Label" parent="HUD"]
 anchors_preset = 1
 anchor_left = 1.0
@@ -90,4 +100,7 @@ offset_bottom = 65.0
 theme_override_font_sizes/font_size = 24
 text = "Kills: 0/0"
 horizontal_alignment = 2
+
+[node name="FogSystem" parent="." instance=ExtResource("9_fog_system")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -8)
 

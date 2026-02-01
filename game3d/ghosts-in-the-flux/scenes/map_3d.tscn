@@ -6,8 +6,10 @@
 [ext_resource type="AudioStream" uid="uid://ctpssnidvwroh" path="res://assets/music/ghosty.ogg" id="4_music"]
 [ext_resource type="Script" uid="uid://c383bn47rhbtp" path="res://scripts/map_3d.gd" id="5_map"]
 [ext_resource type="PackedScene" uid="uid://c8w8w8w8w8w8" path="res://scenes/wall_obstacle.tscn" id="6_wall"]
-[ext_resource type="PackedScene" uid="uid://campfire_scene" path="res://scenes/campfire.tscn" id="8_campfire"]
 [ext_resource type="Texture2D" uid="uid://bn0fx7uy3m3un" path="res://assets/img/lazer_mask.png" id="7_lazer_mask"]
+[ext_resource type="PackedScene" path="res://scenes/campfire.tscn" id="8_campfire"]
+[ext_resource type="PackedScene" path="res://scenes/fog_system.tscn" id="9_fog_system"]
+[ext_resource type="Texture2D" uid="uid://ckh4f3bt4x2ch" path="res://assets/img/gaz_mask.png" id="10_gaz_mask"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_a7x3k"]
 size = Vector2(20, 20)
@@ -19,7 +21,6 @@ size = Vector3(20, 0.2, 20)
 script = ExtResource("5_map")
 wall_scene = ExtResource("6_wall")
 campfire_scene = ExtResource("8_campfire")
-num_campfires = 3
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=1065503062 groups=["floor"]]
 
@@ -56,6 +57,14 @@ offset_bottom = 987.0
 scale = Vector2(0.14834644, 0.15555556)
 texture_normal = ExtResource("7_lazer_mask")
 
+[node name="GazMaskButton" type="TextureButton" parent="HUD" unique_id=1800000000]
+offset_left = 200.0
+offset_top = 25.0
+offset_right = 1144.0
+offset_bottom = 987.0
+scale = Vector2(0.14834644, 0.15555556)
+texture_normal = ExtResource("10_gaz_mask")
+
 [node name="KillCounter" type="Label" parent="HUD" unique_id=1165658221]
 anchors_preset = 1
 anchor_left = 1.0
@@ -67,3 +76,6 @@ offset_bottom = 65.0
 theme_override_font_sizes/font_size = 24
 text = "Kills: 0/0"
 horizontal_alignment = 2
+
+[node name="FogSystem" parent="." unique_id=999999999 instance=ExtResource("9_fog_system")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -8)
