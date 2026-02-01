@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://ctpssnidvwroh" path="res://assets/music/ghosty.ogg" id="4_music"]
 [ext_resource type="Script" path="res://scripts/multiplayer/map_3d_multiplayer.gd" id="5_mp_map"]
 [ext_resource type="PackedScene" uid="uid://c8w8w8w8w8w8" path="res://scenes/wall_obstacle.tscn" id="6_wall"]
+[ext_resource type="PackedScene" uid="uid://campfire_scene" path="res://scenes/campfire.tscn" id="8_campfire"]
 [ext_resource type="Texture2D" path="res://assets/img/lazer_mask.png" id="7_lazer_mask"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mp1"]
@@ -17,6 +18,8 @@ size = Vector3(20, 0.2, 20)
 [node name="Map3DMultiplayer" type="Node3D"]
 script = ExtResource("5_mp_map")
 wall_scene = ExtResource("6_wall")
+campfire_scene = ExtResource("8_campfire")
+num_campfires = 3
 player_scene = ExtResource("1_mp_player")
 
 [node name="Floor" type="StaticBody3D" parent="." groups=["floor"]]

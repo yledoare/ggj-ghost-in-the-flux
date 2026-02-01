@@ -1,6 +1,8 @@
 extends Node3D
 
 @export var wall_scene: PackedScene
+@export var campfire_scene: PackedScene
+@export var num_campfires: int = 3
 @export var player_scene: PackedScene
 
 var spawned_player_ids: Array = []
@@ -109,6 +111,7 @@ func _setup_game():
 	
 	# Spawn obstacles on all clients (deterministic with fixed seeds)
 	call_deferred("spawn_obstacles")
+	call_deferred("spawn_campfires")
 	
 	# Only server spawns players and enemies
 	if multiplayer.is_server():
@@ -171,6 +174,57 @@ func spawn_obstacles():
 		wall.name = "Wall_" + str(i)
 		
 		$Obstacles.add_child(wall, true)
+
+func spawn_campfires():
+	if not campfire_scene:
+		push_warning("Campfire scene not assigned!")
+		return
+	
+	# Use a fixed seed for deterministic campfire placement across all clients
+	var rng = RandomNumberGenerator.new()
+	rng.seed = 67890  # Fixed seed for consistent campfire placement
+	
+	var plane_size = $Floor/MeshInstance3D.mesh.size.x
+	var half_size = plane_size * 0.5
+	
+	# Get all wall positions to avoid spawning campfires too close to them
+	var wall_positions = []
+	for obstacle in $Obstacles.get_children():
+		if obstacle.is_in_group("wall"):
+			wall_positions.append(obstacle.global_position)
+	
+	for i in range(num_campfires):
+		var campfire = campfire_scene.instantiate()
+		
+		# Generate random position on the plane
+		var spawn_pos = Vector3.ZERO
+		var valid_position = false
+		var attempts = 0
+		
+		while not valid_position and attempts < 100:
+			spawn_pos.x = rng.randf_range(-half_size + 2, half_size - 2)
+			spawn_pos.z = rng.randf_range(-half_size + 2, half_size - 2)
+			spawn_pos.y = 0
+			
+			# Check distance from center spawn area (at least 6 units)
+			var distance_from_center = spawn_pos.length()
+			
+			# Check distance from walls (at least 3 units)
+			var too_close_to_wall = false
+			for wall_pos in wall_positions:
+				if spawn_pos.distance_to(wall_pos) < 3.0:
+					too_close_to_wall = true
+					break
+			
+			if distance_from_center >= 6.0 and not too_close_to_wall:
+				valid_position = true
+			
+			attempts += 1
+		
+		if valid_position:
+			campfire.position = spawn_pos
+			campfire.name = "Campfire_" + str(i)
+			$Obstacles.add_child(campfire, true)
 
 func spawn_all_players():
 	# Spawn player for host

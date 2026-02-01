@@ -1,6 +1,8 @@
 extends Node3D
 
 @export var wall_scene: PackedScene
+@export var campfire_scene: PackedScene
+@export var num_campfires: int = 3
 
 var pause_menu: Control
 var is_paused: bool = false
@@ -16,6 +18,7 @@ func _ready():
 	randomize_plane_size()
 	# Defer obstacle spawning to ensure all nodes are properly initialized
 	call_deferred("spawn_obstacles")
+	call_deferred("spawn_campfires")
 	# Setup pause menu
 	call_deferred("_setup_pause_menu")
 	
@@ -128,6 +131,52 @@ func spawn_obstacles():
 		wall.rotation.y = randf_range(0, 2 * PI)
 		
 		add_child(wall)
+
+func spawn_campfires():
+	if not campfire_scene:
+		push_warning("Campfire scene not assigned!")
+		return
+	
+	var plane_size = $Floor/MeshInstance3D.mesh.size.x
+	var half_size = plane_size * 0.5
+	
+	# Get all wall positions to avoid spawning campfires too close to them
+	var wall_positions = []
+	for child in get_children():
+		if child.is_in_group("wall"):
+			wall_positions.append(child.global_position)
+	
+	for i in range(num_campfires):
+		var campfire = campfire_scene.instantiate()
+		
+		# Generate random position on the plane
+		var spawn_pos = Vector3.ZERO
+		var valid_position = false
+		var attempts = 0
+		
+		while not valid_position and attempts < 100:
+			spawn_pos.x = randf_range(-half_size + 2, half_size - 2)
+			spawn_pos.z = randf_range(-half_size + 2, half_size - 2)
+			spawn_pos.y = 0
+			
+			# Check distance from player (at least 6 units)
+			var distance_from_player = spawn_pos.distance_to(player.global_position)
+			
+			# Check distance from walls (at least 3 units)
+			var too_close_to_wall = false
+			for wall_pos in wall_positions:
+				if spawn_pos.distance_to(wall_pos) < 3.0:
+					too_close_to_wall = true
+					break
+			
+			if distance_from_player >= 6.0 and not too_close_to_wall:
+				valid_position = true
+			
+			attempts += 1
+		
+		if valid_position:
+			campfire.position = spawn_pos
+			add_child(campfire)
 
 func _on_lazer_mask_pressed():
 	# HUD button is now just a visual indicator - don't toggle here
