@@ -4,6 +4,7 @@ extends Node3D
 
 var pause_menu: Control
 var is_paused: bool = false
+var current_plane_size: float = 20.0  # Store the current plane size for reliable access
 @onready var lazer_mask_button = $HUD/LazerMaskButton
 @onready var kill_counter_label = $HUD/KillCounter
 @onready var player = $Player3D
@@ -67,6 +68,9 @@ func _on_return_to_menu():
 
 func randomize_plane_size():
 	var plane_size = randf_range(Globals.plane_min_size, Globals.plane_max_size)
+	
+	# Store the current plane size for player access
+	current_plane_size = plane_size
 	
 	# Update plane mesh size
 	var floor_mesh = $Floor/MeshInstance3D

@@ -38,7 +38,7 @@ func _input(event):
 	
 	# Handle space key for lazer mask toggle
 	if event.is_action_pressed("jump"):
-		equip_headband()
+		toggle_headband()
 		# Notify the map to update HUD button
 		var map = get_tree().get_first_node_in_group("map")
 		if map and map.has_method("_update_lazer_button_appearance"):
@@ -111,14 +111,17 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-	# Get current plane size from the floor mesh
+	# Get current plane size from the map (more reliable than reading mesh)
 	var plane_size = 20.0  # default fallback
-	var floor_mesh = get_tree().get_first_node_in_group("floor")
-	if floor_mesh and floor_mesh is MeshInstance3D and floor_mesh.mesh:
-		plane_size = floor_mesh.mesh.size.x
+	var map = get_tree().get_first_node_in_group("map")
+	if map and "current_plane_size" in map:
+		plane_size = map.current_plane_size
+		print("Player detected plane size from map: ", plane_size)  # Debug print
 	
-	# Clamp position to stay within plane boundaries
-	var half_size = plane_size * 0.5
+	# Keep player within plane boundaries - clamp to prevent falling off edges
+	# Account for player collision radius (0.5) to allow reaching the visual edge
+	var player_radius = 0.5
+	var half_size = plane_size * 0.5 - player_radius
 	position.x = clamp(position.x, -half_size, half_size)
 	position.z = clamp(position.z, -half_size, half_size)
 
