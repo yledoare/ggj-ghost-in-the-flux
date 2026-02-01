@@ -4,6 +4,8 @@ extends Node3D
 
 var pause_menu: Control
 var is_paused: bool = false
+@onready var lazer_mask_button = $HUD/LazerMaskButton
+@onready var player = $Player3D
 
 func _ready():
 	randomize_plane_size()
@@ -11,6 +13,9 @@ func _ready():
 	call_deferred("spawn_obstacles")
 	# Setup pause menu
 	call_deferred("_setup_pause_menu")
+	
+	# Connect HUD button
+	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 
 func _setup_pause_menu():
 	var pause_scene = preload("res://scenes/pause_menu.tscn")
@@ -97,3 +102,7 @@ func spawn_obstacles():
 		wall.rotation.y = randf_range(0, 2 * PI)
 		
 		add_child(wall)
+
+func _on_lazer_mask_pressed():
+	if player:
+		player.equip_headband()

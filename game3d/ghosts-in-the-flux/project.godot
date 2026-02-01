@@ -23,6 +23,7 @@ NetworkManager="*res://scripts/multiplayer/network_manager.gd"
 [display]
 
 window/size/viewport_width=1900
+window/size/viewport_height=1024
 
 [physics]
 

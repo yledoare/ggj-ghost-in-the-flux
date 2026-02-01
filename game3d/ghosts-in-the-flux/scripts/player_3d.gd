@@ -11,6 +11,8 @@ extends CharacterBody3D
 @export var min_zoom: float = 3.0
 @export var max_zoom: float = 30.0
 @onready var camera = $Camera3D
+@onready var headband = $Headband
+@onready var mesh = $MeshInstance3D
 var current_zoom: float = 10.0
 
 func _ready():
@@ -103,3 +105,9 @@ func _physics_process(delta: float) -> void:
 	var half_size = plane_size * 0.5
 	position.x = clamp(position.x, -half_size, half_size)
 	position.z = clamp(position.z, -half_size, half_size)
+
+func equip_headband():
+	if mesh and mesh.get_surface_override_material_count() > 0:
+		var material = mesh.get_surface_override_material(0)
+		if material:
+			material.albedo_color = Color.RED

@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://ctpssnidvwroh" path="res://assets/music/ghosty.ogg" id="4_music"]
 [ext_resource type="Script" path="res://scripts/multiplayer/map_3d_multiplayer.gd" id="5_mp_map"]
 [ext_resource type="PackedScene" uid="uid://c8w8w8w8w8w8" path="res://scenes/wall_obstacle.tscn" id="6_wall"]
+[ext_resource type="Texture2D" path="res://assets/img/lazer_mask.png" id="7_lazer_mask"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mp1"]
 size = Vector2(20, 20)
@@ -56,3 +57,14 @@ spawn_path = NodePath("../Players")
 [node name="EnemyMultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://scenes/ghost_enemy.tscn")
 spawn_path = NodePath("../Enemies")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="LazerMaskButton" type="TextureButton" parent="HUD"]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 969.0
+offset_bottom = 987.0
+scale = Vector2(0.14834644, 0.15555556)
+texture_normal = ExtResource("7_lazer_mask")
+

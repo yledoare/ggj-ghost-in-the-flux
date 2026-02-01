@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://mp_player_12345"]
 
 [ext_resource type="Script" path="res://scripts/multiplayer/player_3d_multiplayer.gd" id="1_mp_player"]
+[ext_resource type="Texture2D" path="res://assets/img/lazer_mask.png" id="2_lazer_mask"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_mp1"]
 radius = 0.5
@@ -26,6 +27,12 @@ properties/2/replication_mode = 1
 properties/3/path = NodePath(".:player_id")
 properties/3/spawn = true
 properties/3/replication_mode = 0
+properties/4/path = NodePath("Headband:visible")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("MeshInstance3D:surface_material_override/0:albedo_color")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="Player3DMultiplayer" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_mp_player")
@@ -41,6 +48,13 @@ shape = SubResource("CapsuleShape3D_mp1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 8, 10)
+
+[node name="Headband" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+texture = ExtResource("2_lazer_mask")
+pixel_size = 0.01
+billboard = 1
+visible = false
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 root_path = NodePath("..")

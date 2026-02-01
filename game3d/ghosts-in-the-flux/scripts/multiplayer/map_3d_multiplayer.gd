@@ -6,11 +6,15 @@ extends Node3D
 var spawned_player_ids: Array = []
 var pause_menu: Control
 var is_paused: bool = false
+@onready var lazer_mask_button = $HUD/LazerMaskButton
 
 func _ready():
 	# Connect to player connection/disconnection signals
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	
+	# Connect HUD button
+	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 	
 	# Defer setup to ensure all nodes are properly initialized
 	call_deferred("_setup_game")
@@ -46,6 +50,18 @@ func _on_return_to_menu():
 	if multiplayer.multiplayer_peer:
 		multiplayer.multiplayer_peer.close()
 	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+
+func _on_lazer_mask_pressed():
+	var local_player = get_local_player()
+	if local_player:
+		local_player.equip_headband()
+
+func get_local_player():
+	var my_id = multiplayer.get_unique_id()
+	for player in $Players.get_children():
+		if player.player_id == my_id:
+			return player
+	return null
 
 func _setup_game():
 	randomize_plane_size()
