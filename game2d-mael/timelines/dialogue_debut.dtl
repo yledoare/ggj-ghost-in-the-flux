@@ -1,0 +1,9 @@
+[music path="res://assets/fantome.ogg" fade="1.0" volume="0.0"]
+[background arg="res://assets/black.png" fade="0.0"]
+
+		  chargement en cours
+[wait time="7.0" hide_text="false"]
+do Intro.parametres_base()
+[music fade="0.0" volume="0.0"]
+[signal arg="musique"]
+[end_timeline]

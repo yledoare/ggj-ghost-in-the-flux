@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://ym5br8beitfx"]
+
+[ext_resource type="Script" uid="uid://bexeqg2xwv0ro" path="res://menu.gd" id="1_ouk20"]
+[ext_resource type="FontFile" uid="uid://ty0y0q6lhtjh" path="res://Celtica-Bold.ttf" id="2_mae5d"]
+
+[sub_resource type="Theme" id="Theme_ouk20"]
+default_font = ExtResource("2_mae5d")
+
+[sub_resource type="Theme" id="Theme_4hy44"]
+default_font = ExtResource("2_mae5d")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ouk20"]
+bg_color = Color(0.18039216, 0.18039216, 0.18039216, 1)
+
+[sub_resource type="Theme" id="Theme_mae5d"]
+default_font = ExtResource("2_mae5d")
+
+[sub_resource type="Theme" id="Theme_ytr4m"]
+default_font = ExtResource("2_mae5d")
+
+[node name="Menu" type="Control" unique_id=89548943]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ouk20")
+
+[node name="fondMenu" type="Panel" parent="." unique_id=1488330508]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 656.0
+
+[node name="Titre" type="Label" parent="." unique_id=1829594158]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 88.0
+offset_right = 852.0
+offset_bottom = 200.0
+theme = SubResource("Theme_ouk20")
+theme_override_font_sizes/font_size = 56
+text = "Ghost in the Flux"
+
+[node name="boutonJouer" type="Button" parent="." unique_id=1029105804]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 240.0
+offset_right = 800.0
+offset_bottom = 416.0
+theme = SubResource("Theme_4hy44")
+theme_override_font_sizes/font_size = 56
+text = "Jouer"
+
+[node name="boutonCredits" type="Button" parent="." unique_id=953973302]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 448.0
+offset_right = 800.0
+offset_bottom = 624.0
+theme = SubResource("Theme_4hy44")
+theme_override_font_sizes/font_size = 56
+text = "Crédits"
+
+[node name="fondCredits" type="Panel" parent="." unique_id=1132062827]
+visible = false
+layout_mode = 0
+offset_left = 296.0
+offset_top = 88.0
+offset_right = 896.0
+offset_bottom = 632.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ouk20")
+
+[node name="texteCredits" type="Label" parent="fondCredits" unique_id=281646631]
+layout_mode = 0
+offset_top = 2.0
+offset_right = 560.0
+offset_bottom = 548.0
+theme = SubResource("Theme_mae5d")
+theme_override_font_sizes/font_size = 40
+text = "basé sur la game jam  de 2024"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="boutonRetour" type="Button" parent="fondCredits" unique_id=1777824504]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 378.0
+offset_right = 360.0
+offset_bottom = 476.0
+theme = SubResource("Theme_ytr4m")
+theme_override_font_sizes/font_size = 45
+text = "retour"
+
+[connection signal="pressed" from="boutonJouer" to="." method="_on_bouton_jouer_pressed"]
+[connection signal="pressed" from="boutonCredits" to="." method="_on_bouton_credits_pressed"]
+[connection signal="pressed" from="fondCredits/boutonRetour" to="." method="_on_bouton_retour_pressed"]

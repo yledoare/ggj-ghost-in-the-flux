@@ -1,0 +1,5 @@
+declare module "godot" {
+    interface ResourceTypes {
+        "res://addons/dialogic/Modules/Clear/clear_positions.svg": CompressedTexture2D;
+    }
+}
