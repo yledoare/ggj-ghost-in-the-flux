@@ -10,6 +10,8 @@ var current_plane_size: float = 20.0  # Store the current plane size for reliabl
 @onready var lazer_mask_button = $HUD/LazerMaskButton
 @onready var gaz_mask_button = $HUD/GazMaskButton
 @onready var kill_counter_label = $HUD/KillCounter
+@onready var health_bar = $HUD/HealthBar
+@onready var health_label = $HUD/HealthLabel
 @onready var player = $Player3D
 
 func _ready():
@@ -41,8 +43,14 @@ func _ready():
 	# Initialize kill counter
 	_update_kill_counter()
 	
+	# Initialize health display
+	_update_health_display()
+	
 	# Connect enemy killed signal
 	Globals.enemy_killed.connect(_on_enemy_killed)
+	
+	# Connect player health changed signal
+	player.health_changed.connect(_on_player_health_changed)
 	
 	# Add to map group for player communication
 	add_to_group("map")
@@ -217,3 +225,25 @@ func _update_kill_counter():
 
 func _on_enemy_killed():
 	_update_kill_counter()
+
+func _update_health_display():
+	if health_bar and health_label and player:
+		var current = player.current_health
+		var max_h = player.max_health
+		
+		# Update progress bar (0-100 range)
+		health_bar.value = float(current) / float(max_h) * 100.0
+		
+		# Update label text
+		health_label.text = "Health: %d/%d" % [current, max_h]
+		
+		# Change color based on health
+		if current <= 25:
+			health_bar.modulate = Color.RED
+		elif current <= 50:
+			health_bar.modulate = Color.ORANGE
+		else:
+			health_bar.modulate = Color.GREEN
+
+func _on_player_health_changed(current: int, max_health: int):
+	_update_health_display()

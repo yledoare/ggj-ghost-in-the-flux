@@ -25,6 +25,10 @@ var current_zoom: float = 10.0
 var lazer_mask_active: bool = false
 var gaz_mask_active: bool = false
 
+# Health system
+var max_health: int = 100
+var current_health: int = 100
+
 var laser_projectile_scene = preload("res://scenes/laser_projectile.tscn")
 
 # Multiplayer sync - this will be set by the spawner
@@ -294,5 +298,16 @@ func spawn_laser(pos: Vector3, dir: Vector3):
 	get_parent().add_child(laser)
 
 func take_damage(amount: int):
-	print("Player ", name, " took ", amount, " damage!")
-	# TODO: Implement health system
+	current_health -= amount
+	print("Player ", name, " took ", amount, " damage! Health: ", current_health, "/", max_health)
+	
+	# Emit health changed signal
+	health_changed.emit(current_health, max_health)
+	
+	if current_health <= 0:
+		# Player dies - could add game over logic here
+		print("Player ", name, " died!")
+		current_health = 0
+
+# Signal for health changes
+signal health_changed(current: int, max: int)

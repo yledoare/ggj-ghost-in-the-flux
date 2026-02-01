@@ -12,6 +12,8 @@ var current_plane_size: float = 20.0  # Store the current plane size for reliabl
 @onready var lazer_mask_button = $HUD/LazerMaskButton
 @onready var gaz_mask_button = $HUD/GazMaskButton
 @onready var kill_counter_label = $HUD/KillCounter
+@onready var health_bar = $HUD/HealthBar
+@onready var health_label = $HUD/HealthLabel
 
 func _ready():
 	# Reset enemy counters for new game
@@ -94,6 +96,11 @@ func _update_lazer_button_appearance():
 		else:
 			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
 			lazer_mask_button.button_pressed = false  # Reset button state
+		
+		# Also setup health monitoring for local player
+		if not local_player.health_changed.is_connected(_on_player_health_changed):
+			local_player.health_changed.connect(_on_player_health_changed)
+			_update_health_display()
 
 func _update_kill_counter():
 	if kill_counter_label:
@@ -102,6 +109,29 @@ func _update_kill_counter():
 
 func _on_enemy_killed():
 	_update_kill_counter()
+
+func _update_health_display():
+	var local_player = get_local_player()
+	if health_bar and health_label and local_player:
+		var current = local_player.current_health
+		var max_h = local_player.max_health
+		
+		# Update progress bar (0-100 range)
+		health_bar.value = float(current) / float(max_h) * 100.0
+		
+		# Update label text
+		health_label.text = "Health: %d/%d" % [current, max_h]
+		
+		# Change color based on health
+		if current <= 25:
+			health_bar.modulate = Color.RED
+		elif current <= 50:
+			health_bar.modulate = Color.ORANGE
+		else:
+			health_bar.modulate = Color.GREEN
+
+func _on_player_health_changed(current: int, max_health: int):
+	_update_health_display()
 
 func get_local_player():
 	var my_id = multiplayer.get_unique_id()
@@ -290,22 +320,6 @@ func _spawn_enemies_delayed():
 	var enemy_spawner = $EnemySpawner
 	if enemy_spawner:
 		enemy_spawner.spawn_enemies()
-
-func _update_lazer_button_appearance():
-	# Get the local player
-	var local_player = null
-	for player_id in spawned_player_ids:
-		if player_id == multiplayer.get_unique_id():
-			local_player = $Players.get_node_or_null("Player_" + str(player_id))
-			break
-	
-	if local_player and lazer_mask_button:
-		if local_player.lazer_mask_active:
-			lazer_mask_button.modulate = Color.GREEN  # Green tint when active
-			lazer_mask_button.button_pressed = true  # Keep button in pressed state
-		else:
-			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
-			lazer_mask_button.button_pressed = false  # Reset button state
 
 func _on_gaz_mask_pressed():
 	# HUD button is now just a visual indicator - don't toggle here
