@@ -16,8 +16,14 @@ func _ready():
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 	
+	# Enable toggle mode for the button
+	lazer_mask_button.toggle_mode = true
+	
 	# Update button appearance
 	_update_lazer_button_appearance()
+	
+	# Add to map group for player communication
+	add_to_group("map")
 	
 	# Defer setup to ensure all nodes are properly initialized
 	call_deferred("_setup_game")
@@ -57,7 +63,7 @@ func _on_return_to_menu():
 func _on_lazer_mask_pressed():
 	var local_player = get_local_player()
 	if local_player:
-		local_player.equip_headband()
+		local_player.toggle_headband()
 		_update_lazer_button_appearance()
 
 func _update_lazer_button_appearance():
@@ -65,8 +71,10 @@ func _update_lazer_button_appearance():
 	if local_player and lazer_mask_button:
 		if local_player.lazer_mask_active:
 			lazer_mask_button.modulate = Color.GREEN  # Green tint when active
+			lazer_mask_button.button_pressed = true  # Keep button in pressed state
 		else:
 			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
+			lazer_mask_button.button_pressed = false  # Reset button state
 
 func get_local_player():
 	var my_id = multiplayer.get_unique_id()

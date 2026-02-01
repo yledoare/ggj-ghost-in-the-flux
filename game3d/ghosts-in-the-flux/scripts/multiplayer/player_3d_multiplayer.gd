@@ -70,6 +70,14 @@ func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if lazer_mask_active:
 			shoot_laser()
+	
+	# Handle space key for lazer mask toggle
+	if event.is_action_pressed("jump"):
+		equip_headband()
+		# Notify the map to update HUD button
+		var map = get_tree().get_first_node_in_group("map")
+		if map and map.has_method("_update_lazer_button_appearance"):
+			map._update_lazer_button_appearance()
 
 func update_camera_zoom():
 	if camera and _is_local_player:
@@ -145,6 +153,13 @@ func _physics_process(delta: float) -> void:
 	position.z = clamp(position.z, -half_size, half_size)
 
 func equip_headband():
+	lazer_mask_active = true  # Always activate when called
+	if mesh and mesh.get_surface_override_material_count() > 0:
+		var material = mesh.get_surface_override_material(0)
+		if material:
+			material.albedo_color = Color.RED
+
+func toggle_headband():
 	lazer_mask_active = !lazer_mask_active
 	if mesh and mesh.get_surface_override_material_count() > 0:
 		var material = mesh.get_surface_override_material(0)

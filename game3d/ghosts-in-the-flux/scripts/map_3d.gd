@@ -17,8 +17,14 @@ func _ready():
 	# Connect HUD button
 	lazer_mask_button.pressed.connect(_on_lazer_mask_pressed)
 	
+	# Enable toggle mode for the button
+	lazer_mask_button.toggle_mode = true
+	
 	# Update button appearance
 	_update_lazer_button_appearance()
+	
+	# Add to map group for player communication
+	add_to_group("map")
 
 func _setup_pause_menu():
 	var pause_scene = preload("res://scenes/pause_menu.tscn")
@@ -108,12 +114,14 @@ func spawn_obstacles():
 
 func _on_lazer_mask_pressed():
 	if player:
-		player.equip_headband()
+		player.toggle_headband()
 		_update_lazer_button_appearance()
 
 func _update_lazer_button_appearance():
 	if player and lazer_mask_button:
 		if player.lazer_mask_active:
 			lazer_mask_button.modulate = Color.GREEN  # Green tint when active
+			lazer_mask_button.button_pressed = true  # Keep button in pressed state
 		else:
 			lazer_mask_button.modulate = Color.WHITE  # Normal when inactive
+			lazer_mask_button.button_pressed = false  # Reset button state
