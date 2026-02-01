@@ -30,8 +30,8 @@ func _ready():
 
 func create_server(port: int = DEFAULT_PORT, name: String = "Ghost Server") -> Error:
 	server_name = name
-	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(port, MAX_PLAYERS)
+	var peer = WebSocketMultiplayerPeer.new()
+	var error = peer.create_server(port)
 	
 	if error != OK:
 		push_error("Failed to create server: " + str(error))
@@ -54,8 +54,9 @@ func create_server(port: int = DEFAULT_PORT, name: String = "Ghost Server") -> E
 # ============ CLIENT FUNCTIONS ============
 
 func join_server(address: String, port: int = DEFAULT_PORT) -> Error:
-	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(address, port)
+	var peer = WebSocketMultiplayerPeer.new()
+	var url = "ws://" + address + ":" + str(port)
+	var error = peer.create_client(url)
 	
 	if error != OK:
 		push_error("Failed to connect to server: " + str(error))
